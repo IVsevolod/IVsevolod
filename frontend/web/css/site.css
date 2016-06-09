@@ -114,3 +114,18 @@ a.desc:after {
 .counters {
 
 }
+
+ul.contacts li {
+    list-style-type: none;
+    font-size: 1.5em;
+}
+
+ul.contacts li a {
+    text-decoration: none;
+}
+
+ul.contacts li span {
+    margin-right: 10px;
+    width: 30px;
+    text-align: center;
+}
