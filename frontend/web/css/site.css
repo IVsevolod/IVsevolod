@@ -129,3 +129,13 @@ ul.contacts li span {
     width: 30px;
     text-align: center;
 }
+
+.projects-preview-block img {
+    width: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.projects-preview-block td {
+    vertical-align: top;
+}
