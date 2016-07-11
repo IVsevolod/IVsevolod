@@ -109,6 +109,15 @@ $this->registerMetaTag([
 
 
     <div class="col-sm-11 block-item-view">
+        <?php
+        if ($item->source_url != "") {
+            ?>
+            <div>
+                <b>Источник</b>: <a href="<?= $item->source_url ?>" target="_blank"><?= $item->source_url ?></a>
+            </div>
+            <?php
+        }
+        ?>
         <div class="item-text">
             <?php
             echo HtmlPurifier::process($item->description, []);
