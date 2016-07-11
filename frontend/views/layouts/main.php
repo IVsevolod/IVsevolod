@@ -6,11 +6,15 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$var = isset(Yii::$app->params['jsVar']) ? Yii::$app->params['jsVar'] : [];
+$this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,8 +40,8 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Главная', 'url' => ['/site/index']],
+        ['label' => 'Блог', 'url' => ['/lists/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -17,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property integer $reputation
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -54,6 +56,51 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+    public function getAvatarPic()
+    {
+        $imgUrl = Url::to('/img/no_avatar.png');
+
+        return $imgUrl;
+    }
+
+    public function getVoteByEntity($entity, $entity_id)
+    {
+        return Vote::findOne(['user_id' => $this->id, 'entity' => $entity, 'entity_id' => $entity_id]);
+    }
+
+    public function getVotesByEntity($entity, $entityIds)
+    {
+        return Vote::findAll(['user_id' => $this->id, 'entity' => $entity, 'entity_id' => $entityIds]);
+    }
+
+    public static function isBot()
+    {
+        $bots = [
+            'rambler', 'googlebot', 'aport', 'yahoo', 'msnbot', 'turtle', 'mail.ru', 'omsktele',
+            'yetibot', 'picsearch', 'sape.bot', 'sape_context', 'gigabot', 'snapbot', 'alexa.com',
+            'megadownload.net', 'askpeter.info', 'igde.ru', 'ask.com', 'qwartabot', 'yanga.co.uk',
+            'scoutjet', 'similarpages', 'oozbot', 'shrinktheweb.com', 'aboutusbot', 'followsite.com',
+            'dataparksearch', 'google-sitemaps', 'appEngine-google', 'feedfetcher-google',
+            'liveinternet.ru', 'xml-sitemaps.com', 'agama', 'metadatalabs.com', 'h1.hrn.ru',
+            'googlealert.com', 'seo-rus.com', 'yaDirectBot', 'yandeG', 'yandex',
+            'yandexSomething', 'Copyscape.com', 'AdsBot-Google', 'domaintools.com',
+            'Nigma.ru', 'bing.com', 'dotnetdotcom', 'tweetmemebot', 'twitterbot',
+        ];
+        foreach ($bots as $bot)
+            if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== false) {
+                return true;
+            }
+        return false;
+    }
+
+    /**
+     * @return null|User
+     */
+    public static function thisUser()
+    {
+        return Yii::$app->user->isGuest ? null : Yii::$app->user->identity;
     }
 
     /**
