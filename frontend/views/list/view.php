@@ -49,17 +49,13 @@ $divDislikeClass = join(' ', $divDislikeClass);
 $url = $item->getUrl();
 $tags = $item->tagEntity;
 
-$keywords = [];
 $description = $this->title;
 $description .= ". " . $item->getShortDescription(100, '') . "..";
 $urlVideo = '';
-foreach ($tags as $tag) {
-    $keywords[] = $tag->tags->getName();
-}
 preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
 $this->registerMetaTag([
     'name'    => 'keywords',
-    'content' => join(', ', $keywords),
+    'content' => join(', ', $item->getKeywords()),
 ], 'keywords');
 
 $this->registerMetaTag([
