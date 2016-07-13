@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Item;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -73,6 +74,33 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionSitemap()
+    {
+        $urls = array();
+
+        $items = Item::find()->where(['deleted' => 0])->all();
+
+        foreach ($items as $item) {
+            /** @var Item $item */
+            $urls[] = [
+                'url'      => $item->getUrl(true),
+                'priority' => 0.8,
+            ];
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        foreach ($urls as $url) {
+            echo '<url>';
+            echo '<loc>' . $url['url'] . '</loc>';
+            echo '<changefreq>weekly</changefreq>';
+            echo '<priority>' . $url['priority'] . '</priority>';
+            echo '</url>';
+        }
+        echo '</urlset>';
     }
 
     /**
