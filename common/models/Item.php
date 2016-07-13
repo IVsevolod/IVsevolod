@@ -109,7 +109,7 @@ class Item extends VoteModel
             [['title'], 'required'],
             [['date_update', 'date_create'], 'integer'],
             [['title', 'alias', 'source_url'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 20000],
+            [['description'], 'string', 'max' => 50000],
         ];
     }
 
