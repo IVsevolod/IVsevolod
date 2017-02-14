@@ -45,6 +45,9 @@ return [
                 '<controller:[\w-]+>/<action:[\w-]+>'                          => '<controller>/<action>',
             ],
         ],
+        'vkapi'       => [
+            'class' => 'common\components\VkontakteComponent',
+        ],
     ],
     'params' => $params,
 ];
