@@ -1,7 +1,7 @@
 <?php
 /**
- * @var yii\web\View        $this
- * @var \common\models\Item $item
+ * @var yii\web\View            $this
+ * @var \common\models\ItemPage $item
  */
 
 use common\models\Img;
@@ -23,9 +23,9 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-token
 $this->registerJsFile('//code.jquery.com/ui/1.11.4/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/library/addPage.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$this->title = 'Добавление записи';
+$this->title = 'Добавление страницы';
 
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -38,21 +38,14 @@ $thisUser = \common\models\User::thisUser();
 
     <div class="row">
         <div class="col-lg-9">
-            <?php $form = ActiveForm::begin(['id' => 'list-add-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'list-add-page-form']); ?>
 
-            <?= $form->field($item, 'title')->label('Заголовок') ?>
-
-            <?= $form->field($item, 'source_url')->label('Ресурс') ?>
+            <?= $form->field($item, 'page')->label('Страница') ?>
 
             <?= $form->field($item, 'description')->textarea()->label('Описание') ?>
 
-            <div class="input-group margin-bottom">
-                <span class="input-group-addon" id="basic-addon1">Метки</span>
-                <?= Html::textInput('tags', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
-            </div>
-
             <div class="form-group">
-                <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

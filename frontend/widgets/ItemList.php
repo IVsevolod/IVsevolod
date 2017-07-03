@@ -38,6 +38,12 @@ class ItemList extends \yii\bootstrap\Widget
 
     public $limit = false;
 
+    public $tagEntity = TagEntity::ENTITY_ITEM;
+
+    public $tagGroup = Tags::TAG_GROUP_ALL;
+
+    public $entity = Item::ENTITY_TYPE_ITEM;
+
     public function init()
     {
     }
@@ -91,7 +97,11 @@ class ItemList extends \yii\bootstrap\Widget
         }
 
         if ($searchTag != "") {
-            $tags = Tags::findAll(['name' => $searchTag]);
+            if (is_string($searchTag)) {
+                $tags = Tags::findAll(['name' => $searchTag]);
+            } else {
+                $tags = Tags::find()->where(['name' => $searchTag, 'tag_group' => $this->tagGroup])->all();
+            }
 
             $tagsId = [];
             foreach ($tags as $tag) {
@@ -100,9 +110,14 @@ class ItemList extends \yii\bootstrap\Widget
 
             if (count($tagsId) > 0) {
                 $query = $query
-                    ->andWhere('(SELECT COUNT(*) as tagCount FROM `' . TagEntity::tableName() . '` te WHERE te.entity = "' . TagEntity::ENTITY_ITEM . '" AND te.entity_id = t.id  AND te.tag_id IN (' . join(',', $tagsId) . ')) > 0');
+                    ->andWhere('(SELECT COUNT(*) as tagCount FROM `' . TagEntity::tableName() . '` te WHERE te.entity = "' . $this->tagEntity . '" AND te.entity_id = t.id  AND te.tag_id IN (' . join(',', $tagsId) . ')) > 0');
+            } else {
+                if (!is_string($searchTag)) {
+                    $query->andWhere('false');
+                }
             }
         }
+        $query->andWhere(['entity_type' => $this->entity]);
         $query = $query->with(['tagEntity', 'tagEntity.tags']);
 
         return $query->all();

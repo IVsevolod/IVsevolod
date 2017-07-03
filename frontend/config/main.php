@@ -37,6 +37,8 @@ return [
                 'sitemap.xml'                                                  => 'site/sitemap',
                 'user/<account:[\w-]+>'                                        => 'account/view',
                 'list/<alias:[\w-]+>'                                          => 'list/view',
+                'library/view/<alias:[\w-]+>'                                  => 'library/view',
+                'library/view/<alias:[\w-]+>/<page:[\d+]>'                     => 'library/view',
                 'lists/<action:[\w-]+>'                                        => 'list/<action>',
                 'lists/<action:[\w-]+>/<id:[\d+]>'                             => 'list/<action>',
                 'POST vote/add'                                                => 'vote/add',

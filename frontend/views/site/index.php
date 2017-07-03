@@ -90,12 +90,12 @@ $this->title = 'IVsevolod';
             </tr>
             <tr>
                 <td>
-                    <a href="http://tavan-en.ru/">
+                    <a href="http://tavanen.ru/">
                         <img src="img/project/tavan-en.png">
                     </a>
                 </td>
                 <td>
-                    <a href="http://tavan-en.ru/">tavan-en.ru</a> - <b>Газета.</b><br/>
+                    <a href="http://tavanen.ru/">tavanen.ru</a> - <b>Газета.</b><br/>
                     <b>Дата создания:</b> 02.07.2012<br/>
                     <b>CMS:</b> WP
                 </td>

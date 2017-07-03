@@ -238,4 +238,9 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionVote()
+    {
+        return $this->render('vote');
+    }
 }

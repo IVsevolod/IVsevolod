@@ -42,6 +42,7 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'Блог', 'url' => ['/lists/index']],
+        ['label' => 'Библиотека', 'url' => ['/library/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

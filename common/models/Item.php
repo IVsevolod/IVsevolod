@@ -21,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property int         $like_count
  * @property int         $show_count
  * @property string      $alias
+ * @property string      $entity_type
  * @property string      $source_url
  * @property int         $deleted
  * @property integer     $date_update
@@ -33,6 +34,9 @@ class Item extends VoteModel
 {
 
     const THIS_ENTITY = 'item';
+
+    const ENTITY_TYPE_ITEM = 'item';
+    const ENTITY_TYPE_LIBRARY = 'library';
 
     const MAX_IMG_ITEM   = 5;
     const MAX_VIDEO_ITEM = 5;
@@ -108,7 +112,7 @@ class Item extends VoteModel
             [['description'], 'default', 'value' => ''],
             [['title'], 'required'],
             [['date_update', 'date_create'], 'integer'],
-            [['title', 'alias', 'source_url'], 'string', 'max' => 255],
+            [['title', 'alias', 'source_url', 'entity_type'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 50000],
         ];
     }
@@ -152,10 +156,10 @@ class Item extends VoteModel
         return $this->like_count;
     }
 
-    public function saveTags($tags)
+    public function saveTags($tags, $tagGroup = Tags::TAG_GROUP_ALL)
     {
         foreach ($tags as $tag) {
-            TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, TagEntity::ENTITY_ITEM, $this->id);
+            TagEntity::addTag(trim($tag), $tagGroup, TagEntity::ENTITY_LIBRARY, $this->id);
         }
     }
 
@@ -199,12 +203,16 @@ class Item extends VoteModel
 
     public function getUrl($scheme = false, $addParams = [])
     {
+        $controller = 'list';
+        if ($this->entity_type == self::ENTITY_TYPE_LIBRARY) {
+            $controller = 'library';
+        }
         if ($this->alias) {
-            $params = ['list/view', 'alias' => $this->alias];
+            $params = [$controller . '/view', 'alias' => $this->alias];
             $params = array_merge($params, $addParams);
             return Url::to($params, $scheme);
         } else {
-            $params = ['list/view', 'index' => $this->id];
+            $params = [$controller . '/view', 'index' => $this->id];
             $params = array_merge($params, $addParams);
             return Url::to($params, $scheme);
         }

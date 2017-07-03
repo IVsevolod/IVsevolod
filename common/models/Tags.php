@@ -20,6 +20,7 @@ class Tags extends ActiveRecord
 {
 
     const TAG_GROUP_ALL = 'all';
+    const TAG_GROUP_LIBRARY_TREE = 'library_tree';
 
     /**
      * @inheritdoc

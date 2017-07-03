@@ -26,10 +26,6 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-token
 $this->registerJsFile('//code.jquery.com/ui/1.11.4/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 
-
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/soundEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/edit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = 'Редактирование';
@@ -72,7 +68,7 @@ $thisUser = \common\models\User::thisUser();
             </div>
 
             <div class="form-group">
-                <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
                 <?= Html::a('Отмена', $item->getUrl(), ['class' => 'btn btn-default pull-right']) ?>
             </div>
 
