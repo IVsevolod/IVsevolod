@@ -58,7 +58,7 @@ class ListController extends Controller
                 // Добавляем теги
                 $tags = explode(',', Yii::$app->request->post('tags'));
                 if (is_array($tags)) {
-                    $item->saveTags($tags);
+                    $item->saveTags($tags, Tags::TAG_GROUP_ALL, TagEntity::ENTITY_ITEM);
                 }
 
                 return Yii::$app->getResponse()->redirect($item->getUrl());
@@ -129,13 +129,13 @@ class ListController extends Controller
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);
                 $tags = explode(',', Yii::$app->request->post('tags'));
                 if (is_array($tags)) {
-                    $item->saveTags($tags);
+                    $item->saveTags($tags, Tags::TAG_GROUP_ALL, TagEntity::ENTITY_ITEM);
                 }
 
                 return Yii::$app->getResponse()->redirect($item->getUrl());
             }
         }
-        Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
+        Yii::$app->params['jsVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
 
         return $this->render(
             'edit',

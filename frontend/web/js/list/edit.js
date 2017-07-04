@@ -20,8 +20,8 @@ $(document).ready(function () {
     });
     
     tags = [];
-    if (typeof jsZoukVar['tagsAll'] != "undefined") {
-        tags = jsZoukVar['tagsAll'];
+    if (typeof jsVar['tagsAll'] != "undefined") {
+        tags = jsVar['tagsAll'];
     }
     $('#tokenfield').tokenfield({
         autocomplete: {

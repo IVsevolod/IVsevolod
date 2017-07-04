@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property integer     $date_create
  *
  * @property TagEntity[] $tagEntity
+ * @property TagEntity[] $tagEntityLibrary
  * @property User        $user
  */
 class Item extends VoteModel
@@ -146,6 +147,15 @@ class Item extends VoteModel
         return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => TagEntity::ENTITY_ITEM]);
     }
 
+    public function getTagEntityLibrary()
+    {
+        return $this
+            ->hasMany(TagEntity::className(), ['entity_id' => 'id'])
+            ->andOnCondition([
+                TagEntity::tableName() . '.entity' => TagEntity::ENTITY_LIBRARY,
+            ]);
+    }
+
     public function addVote($changeVote)
     {
         $this->like_count += $changeVote;
@@ -156,10 +166,10 @@ class Item extends VoteModel
         return $this->like_count;
     }
 
-    public function saveTags($tags, $tagGroup = Tags::TAG_GROUP_ALL)
+    public function saveTags($tags, $tagGroup = Tags::TAG_GROUP_ALL, $tagEntityType = TagEntity::ENTITY_ITEM)
     {
         foreach ($tags as $tag) {
-            TagEntity::addTag(trim($tag), $tagGroup, TagEntity::ENTITY_LIBRARY, $this->id);
+            TagEntity::addTag(trim($tag), $tagGroup, $tagEntityType, $this->id);
         }
     }
 

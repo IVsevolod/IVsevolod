@@ -72,7 +72,7 @@ class LibraryController extends Controller
                     $tagsTree[] = $parentId;
                 }
                 if (is_array($tagsTree)) {
-                    $item->saveTags($tagsTree, Tags::TAG_GROUP_LIBRARY_TREE);
+                    $item->saveTags($tagsTree, Tags::TAG_GROUP_LIBRARY_TREE, TagEntity::ENTITY_LIBRARY);
                 }
 
                 return Yii::$app->getResponse()->redirect($item->getUrl());
@@ -96,7 +96,7 @@ class LibraryController extends Controller
         if ($item && $item->load(Yii::$app->request->post())) {
             $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             if ($item->save()) {
-                TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);
+                TagEntity::deleteAll(['entity' => TagEntity::ENTITY_LIBRARY, 'entity_id' => $item->id]);
                 $tags = explode(',', Yii::$app->request->post('tags'));
                 $tagsTree = [];
                 foreach ($tags as $tag) {
@@ -104,13 +104,13 @@ class LibraryController extends Controller
                     $tagsTree[] = $parentId;
                 }
                 if (is_array($tagsTree)) {
-                    $item->saveTags($tagsTree);
+                    $item->saveTags($tagsTree, Tags::TAG_GROUP_LIBRARY_TREE, TagEntity::ENTITY_LIBRARY);
                 }
 
                 return Yii::$app->getResponse()->redirect($item->getUrl());
             }
         }
-        Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
+        Yii::$app->params['jsVar']['tagsAll'] = TreeItem::getAllIdTitles();
 
         return $this->render(
             'edit',

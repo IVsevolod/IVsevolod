@@ -7,6 +7,7 @@
 use common\models\Img;
 use common\models\Item;
 use common\models\Music;
+use common\models\TagEntity;
 use common\models\Tags;
 use common\models\Video;
 use frontend\models\Lang;
@@ -36,12 +37,17 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->params['breadcrumbs'][] = $this->title;
 
-$tags = $item->tagEntity;
+$tags = $item->tagEntityLibrary;
 $tagValues = [];
 foreach ($tags as $tag) {
     /** @var Tags $tagItem */
     $tagItem = $tag->tags;
-    $tagValues[] = $tagItem->getName();
+    if ($tag->entity == TagEntity::ENTITY_LIBRARY) {
+        $treeItem = \common\models\TreeItem::findOne($tagItem->name);
+        if (!empty($treeItem)) {
+            $tagValues[] = $treeItem->id . '. ' . $treeItem->title;
+        }
+    }
 }
 $tagValue = join(',', $tagValues);
 
@@ -63,7 +69,7 @@ $thisUser = \common\models\User::thisUser();
             <?= $form->field($item, 'description')->textarea()->label('Описание') ?>
 
             <div class="input-group margin-bottom">
-                <span class="input-group-addon" id="basic-addon1">Метки</span>
+                <span class="input-group-addon" id="basic-addon1">Разделы</span>
                 <?= Html::textInput('tags', $tagValue, array('id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control')) ?>
             </div>
 
