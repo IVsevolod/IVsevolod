@@ -130,6 +130,7 @@ class VktaskrunController extends Controller
                 }
 
                 $imgElements = $htmlNews->find('#PrintText img');
+                $attachments = [];
                 foreach ($imgElements ?? [] as $imgElement) {
                     $src = $imgElement->src;
                     $src = str_replace('../', 'http://gov.cap.ru/', $src);
@@ -144,7 +145,7 @@ class VktaskrunController extends Controller
 
                 $vkpost = new Vkpost();
                 $vkpost->text = $title . '<br><br>' . $text;
-                $vkpost->text = htmlspecialchars_decode($vkpost->text);
+                $vkpost->text = html_entity_decode($vkpost->text);
 
                 $vkpost->attachments = json_encode($attachments);
                 $vkpost->post_id = null;
