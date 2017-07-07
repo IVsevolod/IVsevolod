@@ -13,7 +13,7 @@ class VktaskrunController extends Controller
 {
     public $defaultAction = 'init';
 
-    private function runTask($access_token, $group_id, $category, $tags, $publicInterval)
+    private function runTask($access_token, $group_id, $category, $tags, $publicInterval, $limit = 3)
     {
         $vkTaskRun = VkTaskRun::find()->andWhere(['group_id' => $group_id])->orderBy('time desc')->one();
         if (empty($vkTaskRun) || ($vkTaskRun->time < strtotime('+ 120 min', time()))) {
@@ -182,7 +182,7 @@ class VktaskrunController extends Controller
 
         $access_token = \Yii::$app->params['nurVkAccessToken'];
         if (!empty($access_token)) {
-            $this->runTask($access_token, '2411559', ['humor', 'story'], [], [600, 840]);
+            $this->runTask($access_token, '2411559', ['humor', 'story'], [], [600, 840], 1);
         }
     }
 }
