@@ -11,7 +11,7 @@ use common\components\SimpleHtmlDom;
 
 class VktaskrunController extends Controller
 {
-    public $defaultAction = 'cheb-news';
+    public $defaultAction = 'init';
 
     private function runTask($access_token, $group_id, $category, $tags, $publicInterval)
     {
