@@ -187,7 +187,7 @@ class VkontakteComponent extends Vkontakte
             'message'      => $text,
             'from_group'   => 1,
             'publish_date' => $publishDate,
-            'guid'         => date('Ym') . $vkpost->post_id,
+            'guid'         => date('Ym') . (empty($vkpost->post_id) ? date('dHis') : $vkpost->post_id ),
             'attachments'  => $attachments,
         ];
 
