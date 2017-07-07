@@ -144,6 +144,7 @@ class VktaskrunController extends Controller
 
                 $vkpost = new Vkpost();
                 $vkpost->text = $title . '<br><br>' . $text;
+                $vkpost->text = htmlspecialchars_decode($vkpost->text);
 
                 $vkpost->attachments = json_encode($attachments);
                 $vkpost->post_id = null;
