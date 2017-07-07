@@ -73,12 +73,25 @@ define('MAX_FILE_SIZE', 600000);
 
 class SimpleHtmlDom
 {
+
+	public static function  get_content($url)
+	{
+		$curl_handle=curl_init();
+		curl_setopt($curl_handle, CURLOPT_URL, $url);
+		curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1');
+		$content = curl_exec($curl_handle);
+		curl_close($curl_handle);
+		return $content;
+	}
+
 	public static function file_get_html($url, $use_include_path = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $target_charset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
 	{
 		// We DO force the tags to be terminated.
 		$dom = new simple_html_dom(null, $lowercase, $forceTagsClosed, $target_charset, $stripRN, $defaultBRText, $defaultSpanText);
 		// For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
-		$contents = file_get_contents($url, $use_include_path, $context, $offset);
+		$contents = self::get_content($url);
 		// Paperg - use our own mechanism for getting the contents as we want to control the timeout.
 		//$contents = retrieve_url_contents($url);
 		if (empty($contents) || strlen($contents) > MAX_FILE_SIZE)

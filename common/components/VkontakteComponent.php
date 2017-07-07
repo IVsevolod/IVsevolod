@@ -90,7 +90,7 @@ class VkontakteComponent extends Vkontakte
         } else {
             $attachmentsObj = json_decode($attachments, true);
             $attachments = [];
-            foreach ($attachmentsObj as $value) {
+            foreach ($attachmentsObj ?? [] as $value) {
                 $valueData = $value[$value['type']];
                 if (isset($value['type']) && $value['type'] == 'doc') {
                     $response = $this->api('docs.getUploadServer', [
@@ -139,7 +139,8 @@ class VkontakteComponent extends Vkontakte
 
                     $tmpfname = tempnam("/tmp", "photo");
                     $handle = fopen($tmpfname, "w");
-                    fwrite($handle, file_get_contents($value['photo']['src_big'], FILE_USE_INCLUDE_PATH));
+                    fwrite($handle, SimpleHtmlDom::get_content($value['photo']['src_big']));
+//                    fwrite($handle, file_get_contents($value['photo']['src_big'], FILE_USE_INCLUDE_PATH));
                     fclose($handle);
 
                     $finfo = finfo_open(FILEINFO_MIME);
