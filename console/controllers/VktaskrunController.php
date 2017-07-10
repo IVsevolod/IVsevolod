@@ -118,7 +118,6 @@ class VktaskrunController extends Controller
                 $textElements = $htmlNews->find('#PrintText p');
                 array_shift($textElements);
                 array_pop($textElements);
-                array_pop($textElements);
                 $text = "";
                 foreach ($textElements as $textElement) {
                     $newP = $textElement->plaintext;
@@ -173,6 +172,106 @@ class VktaskrunController extends Controller
             if ($i > 1) {
                 break;
             }
+        }
+    }
+
+    public function actionChebFilms()
+    {
+        $group_id = '2411559';
+
+        $html = SimpleHtmlDom::file_get_html('https://afisha.cheb.ru/kino/');
+        $cinemas = $html->find('table.showfilm');
+
+        $allFilms = [];
+        foreach ($cinemas as $cinema) {
+            if (!is_null($cinema)) {
+                // Кинотеатры
+                $titleCinema = $cinema->find('a p b');
+                $titleCinema = array_shift($titleCinema);
+                $titleCinema = $titleCinema->plaintext;
+                $titleCinema = strip_tags($titleCinema);
+
+                $rows = $cinema->find('tr');
+                array_shift($rows);
+
+                foreach ($rows ?? [] as $row) {
+                    if (!empty($row)) {
+                        // Фильм по кинотеатру в нужное время
+                        $titleFilm = $row->find('td a');
+                        $titleFilm = array_shift($titleFilm);
+                        $urlFilm = $titleFilm->href;
+                        $titleFilm = $titleFilm->plaintext;
+                        $titleFilm = trim(strip_tags($titleFilm));
+
+                        $aboutFilm = $row->find('td span');
+                        $aboutFilm = array_shift($aboutFilm);
+                        $aboutFilm = $aboutFilm->plaintext;
+                        $aboutFilm = trim(strip_tags($aboutFilm));
+
+                        $timeFilm = $row->find('td');
+                        $timeFilm = array_shift($timeFilm);
+                        $timeFilm = $timeFilm->plaintext;
+                        $timeFilm = trim(strip_tags($timeFilm));
+
+                        if (!empty($timeFilm) && !empty($aboutFilm) && !empty($titleFilm)) {
+                            $allFilms[$titleFilm]['url'] = $urlFilm;
+                            $allFilms[$titleFilm]['about'] = $aboutFilm;
+                            $allFilms[$titleFilm]['cinemas'][$titleCinema][$timeFilm] = true;
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+
+        $attachments = [];
+        $attachmentsSrc = [];
+        $text = "";
+        if (!empty($allFilms)) {
+            $text = '&#8505; Киноафиша на сегодня: <br>';
+            foreach ($allFilms ?? [] as $title => $film) {
+                $text .= '&#127909; ' . $title . ' ' . $film['about'] . '<br>';
+                foreach ($film['cinemas'] as $titleCinema => $cinema) {
+                    $text .= $titleCinema . ': ';
+                    $times = array_keys($cinema);
+                    $text .= join(', ', $times) . '<br>';
+                }
+                $text .= '<br>';
+
+                if (count($attachments) < 10) {
+                    parse_str(parse_url($film['url'], PHP_URL_QUERY), $urlParams);
+                    if (!empty($urlParams['film'])) {
+                        $src = 'https://afisha.cheb.ru/pics/big/' . $urlParams['film'] . '.jpg';
+                        if (!in_array($src, $attachmentsSrc)) {
+                            $attachments[] = [
+                                'type'  => 'photo',
+                                'photo' => [
+                                    'src_big' => $src,
+                                ],
+                            ];
+                            $attachmentsSrc[] = $src;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($text)) {
+            $interval = rand(1, 11);
+            $datestart = strtotime('+ ' . $interval . ' min', time());
+
+            $vkpost = new Vkpost();
+            $vkpost->text = $text;
+            $vkpost->text = html_entity_decode($vkpost->text);
+
+            $access_token = \Yii::$app->params['nurVkAccessToken'];
+            $vkapi = \Yii::$app->vkapi;
+            $vkapi->initAccessToken($access_token);
+
+            $vkpost->attachments = json_encode($attachments);
+            $response = $vkapi->vkPostFromModel($group_id, $datestart, $vkpost, ['фильмы', 'Чебоксары', 'Cheboksary', 'кионтеатры', 'чтопосмотреть']);
         }
     }
 

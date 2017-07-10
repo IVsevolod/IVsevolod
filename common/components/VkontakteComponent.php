@@ -169,7 +169,9 @@ class VkontakteComponent extends Vkontakte
                         'server' => $response->server,
                         'hash' => $response->hash,
                     ]);
-                    $attachments[] = $response[0]->id;
+                    if (!empty($response) && !empty($response[0]) && isset($response[0]->id)) {
+                        $attachments[] = $response[0]->id;
+                    }
                 } else if (isset($value['type']) && isset($valueData['owner_id']) && isset($valueData['pid'])) {
                     $attachments[] = $value['type'] . $valueData['owner_id'] . '_' . $valueData['pid'];
                 }
