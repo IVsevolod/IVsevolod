@@ -182,7 +182,7 @@ class VktaskrunController extends Controller
 
         $access_token = \Yii::$app->params['nurVkAccessToken'];
         if (!empty($access_token)) {
-            $this->runTask($access_token, '2411559', ['humor', 'story'], [], [600, 840], 1);
+            $this->runTask($access_token, '2411559', ['humor', 'story'], [], [40, 100], 2);
         }
     }
 }
