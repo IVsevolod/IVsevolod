@@ -116,6 +116,9 @@ class VktaskrunController extends Controller
                 $title = $titleElement->plaintext;
                 $title = strip_tags($title);
                 $textElements = $htmlNews->find('#PrintText p');
+                array_shift($textElements);
+                array_pop($textElements);
+                array_pop($textElements);
                 $text = "";
                 foreach ($textElements as $textElement) {
                     $newP = $textElement->plaintext;
