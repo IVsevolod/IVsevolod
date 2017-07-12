@@ -4,7 +4,9 @@ namespace frontend\widgets;
 use common\models\Item;
 use common\models\TagEntity;
 use common\models\Tags;
+use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
+use yii\db\ActiveQuery;
 
 class ItemList extends \yii\bootstrap\Widget
 {
@@ -44,25 +46,52 @@ class ItemList extends \yii\bootstrap\Widget
 
     public $entity = Item::ENTITY_TYPE_ITEM;
 
+    public $action = 'list';
+
     public function init()
     {
     }
 
     public function run()
     {
-        $items = $this->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId, $this->limit);
-        return $this->render(
-            'itemList/list',
-            [
-                'items'          => $items,
-                'onlyItem'       => $this->onlyItem,
-                'dateCreateType' => $this->dateCreateType,
-                'searchTag'      => $this->searchTag,
-                'display'        => $this->display,
-            ]
-        );
+        if ($this->action == 'list') {
+            $items = $this
+                ->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId, $this->limit)
+                ->all();
+            return $this->render(
+                'itemList/list',
+                [
+                    'items'          => $items,
+                    'onlyItem'       => $this->onlyItem,
+                    'dateCreateType' => $this->dateCreateType,
+                    'searchTag'      => $this->searchTag,
+                    'display'        => $this->display,
+                ]
+            );
+        } else if ($this->action == 'listview') {
+            $query = $this
+                ->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => $this->limit ?: 10,
+                ],
+            ]);
+            return $this->render('itemList/listView', [
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
+    /**
+     * @param int $lastId
+     * @param string $orderBy
+     * @param string $dateCreateType
+     * @param string $searchTag
+     * @param bool $userId
+     * @param bool $limit
+     * @return ActiveQuery
+     */
     public function getAllItems($lastId = 0, $orderBy = self::ORDER_BY_ID, $dateCreateType = self::DATE_CREATE_LAST, $searchTag = "", $userId = false, $limit = false)
     {
         $query = Item::find()->from(["t" => Item::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
@@ -120,6 +149,6 @@ class ItemList extends \yii\bootstrap\Widget
         $query->andWhere(['entity_type' => $this->entity]);
         $query = $query->with(['tagEntity', 'tagEntity.tags']);
 
-        return $query->all();
+        return $query;
     }
 }

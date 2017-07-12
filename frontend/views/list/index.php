@@ -1,7 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
- * @var string       $searchTag
+ * @var string $searchTag
  */
 
 use frontend\models\Lang;
@@ -30,7 +30,8 @@ echo $this->render('/list/tabs', ['selectTab' => 1, 'searchTag' => $searchTag]);
     <div class="body-content">
 
         <?= ItemList::widget([
-            'orderBy' => ItemList::ORDER_BY_ID,
+            'action'    => 'listview',
+            'orderBy'   => ItemList::ORDER_BY_ID,
             'searchTag' => $searchTag,
         ]) ?>
 

@@ -1,18 +1,21 @@
 <?php
 /**
- * @var Item   $item
- * @var string $dateCreateType
+ * @var Item $model
  */
+
+
 use common\models\Item;
 use common\models\Tags;
-use frontend\widgets\ItemList;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$item = $model;
 $url = $item->getUrl();
 $tags = $item->tagEntity;
 ?>
-<div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="row block-item-summary margin-bottom <?= $item->like_count < 0 ? 'bad-item' : '' ?>">
+
+<div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>"
+     class="row block-item-summary margin-bottom <?= $item->like_count < 0 ? 'bad-item' : '' ?>">
     <div class="col-sm-1 visible-sm-block visible-md-block visible-lg-block">
         <div class="cp tac" onclick="window.location.href='<?= $url ?>'">
             <div class="votes">
@@ -45,11 +48,7 @@ $tags = $item->tagEntity;
                 foreach ($tags as $tag) {
                     /** @var Tags $tagItem */
                     $tagItem = $tag->tags;
-                    if ($dateCreateType == ItemList::DATE_CREATE_LAST) {
-                        $urlTag = Url::to(['/', 'tag' => $tagItem->getName()]);
-                    } else {
-                        $urlTag = Url::to(['list/' . $dateCreateType, 'tag' => $tagItem->getName()]);
-                    }
+                    $urlTag = Url::to(['/', 'tag' => $tagItem->getName()]);
                     echo Html::a($tagItem->getName(), $urlTag, ['class' => 'label label-tag-element']), " ";
                 }
                 ?>

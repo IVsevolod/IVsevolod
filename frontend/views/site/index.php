@@ -102,12 +102,12 @@ $this->title = 'IVsevolod';
             </tr>
             <tr>
                 <td>
-                    <a href="http://brazilianzouk.ru/">
+                    <a href="http://prozouk.ru/">
                         <img src="img/project/prozouk.png">
                     </a>
                 </td>
                 <td>
-                    <a href="http://brazilianzouk.ru/">brazilianzouk.ru</a> - <b>Про танец Zouk.</b><br/>
+                    <a href="http://prozouk.ru/">prozouk.ru</a> - <b>Портал танца Zouk.</b><br/>
                     <b>Дата создания:</b> 06.03.2016<br/>
                     <b>Framework:</b> Yii2
                 </td>

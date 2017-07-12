@@ -23,6 +23,7 @@ use yii\helpers\Html;
     <?php
 
     echo ItemList::widget([
+        'action'    => 'listview',
         'orderBy'   => ItemList::ORDER_BY_ID,
         'searchTag' => $list,
         'tagEntity' => \common\models\TagEntity::ENTITY_LIBRARY,
