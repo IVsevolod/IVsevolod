@@ -243,4 +243,9 @@ class SiteController extends Controller
     {
         return $this->render('vote');
     }
+
+    public function actionVoteAuto()
+    {
+        return $this->render('voteAuto');
+    }
 }
