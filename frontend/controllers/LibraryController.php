@@ -34,7 +34,7 @@ class LibraryController extends Controller
         ];
     }
 
-    public function actionIndex($id = null)
+    public function actionIndex($id = null, $sort = null)
     {
         $list = [];
         if (empty($id)) {

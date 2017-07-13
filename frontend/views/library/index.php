@@ -8,6 +8,17 @@ use frontend\widgets\ItemList;
 use yii\helpers\Html;
 
 
+$sort = new \yii\data\Sort([
+    'attributes' => [
+        'id',
+        'like_count',
+        'show_count',
+    ],
+]);
+$orders = $sort->orders;
+$sortColumn = array_keys($orders);
+$sortColumn = reset($sortColumn);
+$sortDirection = reset($orders);
 ?>
 <div class="col-sm-3">
     <?php
@@ -20,6 +31,39 @@ use yii\helpers\Html;
     ?>
 </div>
 <div class="col-sm-9">
+    Сортировка:
+    <div class="btn-group" role="group" aria-label="">
+        <?php
+        if ($sortDirection == SORT_DESC) {
+            echo Html::a(
+                'По дате создания ' . ($sortColumn == 'id' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => 'id'],
+                ['class' => 'btn btn-default']
+            );
+        } else {
+            echo Html::a(
+                'По дате создания ' . ($sortColumn == 'id' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => '-id'],
+                ['class' => 'btn btn-default']
+            );
+        }
+        ?>
+        <?php
+        if ($sortDirection == SORT_DESC) {
+            echo Html::a(
+                'По читаемости ' . ($sortColumn == 'like_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => 'like_count'],
+                ['class' => 'btn btn-default']
+            );
+        } else {
+            echo Html::a(
+                'По читаемости ' . ($sortColumn == 'like_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => '-like_count'],
+                ['class' => 'btn btn-default']
+            );
+        }
+        ?>
+    </div>
     <?php
 
     echo ItemList::widget([

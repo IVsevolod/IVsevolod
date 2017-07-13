@@ -6,6 +6,7 @@ use common\models\TagEntity;
 use common\models\Tags;
 use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
+use yii\data\Sort;
 use yii\db\ActiveQuery;
 
 class ItemList extends \yii\bootstrap\Widget
@@ -71,6 +72,15 @@ class ItemList extends \yii\bootstrap\Widget
         } else if ($this->action == 'listview') {
             $query = $this
                 ->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId);
+            $sort = new Sort([
+                'attributes' => [
+                    'id',
+                    'like_count',
+                    'show_count',
+                ],
+                'defaultOrder' => 'id',
+            ]);
+            $query->orderBy($sort->orders);
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [
