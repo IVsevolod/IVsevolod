@@ -24,7 +24,5 @@ function tourClick() {
     } else {
         url = url + '?tour=1&timeToue=' + timeTour;
     }
-    $a.attr('href', url);
-    console.log($a);
-    $a.click();
+    document.location.href = url;
 }
