@@ -72,15 +72,18 @@ class ItemList extends \yii\bootstrap\Widget
         } else if ($this->action == 'listview') {
             $query = $this
                 ->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId);
-            $sort = new Sort([
-                'attributes' => [
-                    'id',
-                    'like_count',
-                    'show_count',
-                ],
-                'defaultOrder' => 'id',
-            ]);
-            $query->orderBy($sort->orders);
+            if (is_null($this->orderBy)) {
+                $sort = new Sort([
+                    'attributes' => [
+                        'id',
+                        'like_count',
+                        'show_count',
+                    ],
+                    'defaultOrder' => 'id',
+                ]);
+                
+                $query->orderBy($sort->orders);
+            }
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [

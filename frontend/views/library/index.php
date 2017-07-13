@@ -51,14 +51,14 @@ $sortDirection = reset($orders);
         <?php
         if ($sortDirection == SORT_DESC) {
             echo Html::a(
-                'По читаемости ' . ($sortColumn == 'like_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
-                ['library/index', 'id' => $selectedId, 'sort' => 'like_count'],
+                'По читаемости ' . ($sortColumn == 'show_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => 'show_count'],
                 ['class' => 'btn btn-default']
             );
         } else {
             echo Html::a(
-                'По читаемости ' . ($sortColumn == 'like_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
-                ['library/index', 'id' => $selectedId, 'sort' => '-like_count'],
+                'По читаемости ' . ($sortColumn == 'show_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => '-show_count'],
                 ['class' => 'btn btn-default']
             );
         }
@@ -68,7 +68,7 @@ $sortDirection = reset($orders);
 
     echo ItemList::widget([
         'action'    => 'listview',
-        'orderBy'   => ItemList::ORDER_BY_ID,
+        'orderBy'   => null,
         'searchTag' => $list,
         'tagEntity' => \common\models\TagEntity::ENTITY_LIBRARY,
         'tagGroup'  => \common\models\Tags::TAG_GROUP_LIBRARY_TREE,
