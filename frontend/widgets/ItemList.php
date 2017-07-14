@@ -76,8 +76,8 @@ class ItemList extends \yii\bootstrap\Widget
                 $sort = new Sort([
                     'attributes' => [
                         'id',
-                        'like_count',
                         'show_count',
+                        'title',
                     ],
                     'defaultOrder' => 'id',
                 ]);

@@ -11,8 +11,8 @@ use yii\helpers\Html;
 $sort = new \yii\data\Sort([
     'attributes' => [
         'id',
-        'like_count',
         'show_count',
+        'title',
     ],
 ]);
 $orders = $sort->orders;
@@ -59,6 +59,21 @@ $sortDirection = reset($orders);
             echo Html::a(
                 'По читаемости ' . ($sortColumn == 'show_count' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
                 ['library/index', 'id' => $selectedId, 'sort' => '-show_count'],
+                ['class' => 'btn btn-default']
+            );
+        }
+        ?>
+        <?php
+        if ($sortDirection == SORT_DESC) {
+            echo Html::a(
+                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => 'title'],
+                ['class' => 'btn btn-default']
+            );
+        } else {
+            echo Html::a(
+                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => '-title'],
                 ['class' => 'btn btn-default']
             );
         }
