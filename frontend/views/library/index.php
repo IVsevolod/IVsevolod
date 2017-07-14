@@ -64,16 +64,16 @@ $sortDirection = reset($orders);
         }
         ?>
         <?php
-        if ($sortDirection == SORT_DESC) {
+        if ($sortDirection == SORT_ASC) {
             echo Html::a(
-                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
-                ['library/index', 'id' => $selectedId, 'sort' => 'title'],
+                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => '-title'],
                 ['class' => 'btn btn-default']
             );
         } else {
             echo Html::a(
-                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes']) : ''),
-                ['library/index', 'id' => $selectedId, 'sort' => '-title'],
+                'По заголовку ' . ($sortColumn == 'title' ? Html::tag('span', '', ['class' => 'glyphicon glyphicon-sort-by-attributes-alt']) : ''),
+                ['library/index', 'id' => $selectedId, 'sort' => 'title'],
                 ['class' => 'btn btn-default']
             );
         }
