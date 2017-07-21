@@ -57,6 +57,10 @@ function tourClick() {
     if (!timeTour) {
         timeTour = 5000;
     }
+    timeTour = timeTour + parseInt(Math.random()*10000) - parseInt(Math.random()*10000);
+    if (timeTour < 1000) {
+        timeTour = 1000;
+    }
     if (url.match(/\?/)) {
         url = url + '&tour=1&timeToue=' + timeTour;
     } else {
