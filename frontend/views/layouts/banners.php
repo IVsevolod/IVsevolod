@@ -21,6 +21,12 @@
         <a href="http://addssites.com" onClick="this.href='http://addssites.com/?usr=97776'" target="_blank"><img src="http://addssites.com/images/banner.gif" width=88 height=31 border=0 alt="Бесплатный каталог AddsSites, регистрация сайтов."></a>
     </div>
     <div>
+        <div style="width: 88px; height: 31px; border: 1px solid rgb(143, 188, 188); text-align: center; line-height: 1em; vertical-align: middle; background-color: white;" id="z456123" class="x321456">
+
+            <a style="vertical-align: middle; text-decoration: none;" href="http://www.nofollow.ru" rel="dofollow" id="z123456" class="x321654"><span style="color: Green; font-size: 11px;">каталог</span> <span style="color: Red; font-size: 11px;">сайтов</span></a><br /><span style="color: red; font-size: 11px;">No</span><span style="color: Green; font-size: 11px;">folloW</span>.Ru
+        </div>
+    </div>
+    <div>
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
             (function (d, w, c) {
