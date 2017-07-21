@@ -51,6 +51,9 @@ function tourClick() {
     var $allA = $('a[target!="_blank"]');
     var $a = $allA.eq(Math.floor(Math.random() * $allA.length));
     var url = $a.attr('href');
+    if (url.indexOf('https://') >= 0) {
+        url = 'http://prozouk.ru';
+    }
     if (!timeTour) {
         timeTour = 5000;
     }
