@@ -18,6 +18,9 @@
             //--></script><!--/LiveInternet-->
     </div>
     <div>
+        <a href="http://addssites.com" onClick="this.href='http://addssites.com/?usr=97776'" target="_blank"><img src="http://addssites.com/images/banner.gif" width=88 height=31 border=0 alt="Бесплатный каталог AddsSites, регистрация сайтов."></a>
+    </div>
+    <div>
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
             (function (d, w, c) {
