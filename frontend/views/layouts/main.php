@@ -70,6 +70,15 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
+
+
+        <div class="clearfix"></div>
+        <div>
+            <?php
+            echo $this->render('banners');
+            ?>
+        </div>
+        <div class="clearfix"></div>
     </div>
 </div>
 
@@ -78,17 +87,7 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
         <p class="pull-left">&copy; IVsevolod <?= date('Y') ?></p>
 
         <div class="pull-right">
-            <!--LiveInternet counter--><script type="text/javascript"><!--
-                document.write("<a href='http://www.liveinternet.ru/click' "+
-                    "target=_blank><img src='//counter.yadro.ru/hit?t14.5;r"+
-                    escape(document.referrer)+((typeof(screen)=="undefined")?"":
-                    ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-                        screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-                    ";"+Math.random()+
-                    "' alt='' title='LiveInternet: показано число просмотров за 24"+
-                    " часа, посетителей за 24 часа и за сегодня' "+
-                    "border='0' width='88' height='31'><\/a>")
-                //--></script><!--/LiveInternet-->
+
         </div>
     </div>
 </footer>

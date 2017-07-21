@@ -8,6 +8,41 @@ $(function() {
         }
         setTimeout('tourClick()', timeTour);
     }
+
+    $('.banners-list').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 12,
+        slidesToScroll: 12,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 10,
+                    slidesToScroll: 10,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 7,
+                    slidesToScroll: 7
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            }
+        ]
+    });
 });
 function tourClick() {
     var urls = new URL(document.location.href);
