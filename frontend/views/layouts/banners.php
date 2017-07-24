@@ -26,6 +26,9 @@
         </div>
     </div>
     <div>
+        <a href="http://webplus.info/index.php?page=47&add_top_url=174230"><img alt="Каталог webplus.info" border=0 src="http://webplus.info/getres.php?infoforurl=174230&color=gray"></a>
+    </div>
+    <div>
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
             (function (d, w, c) {
