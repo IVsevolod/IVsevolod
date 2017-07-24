@@ -177,6 +177,8 @@ $this->registerMetaTag([
             </div>
         </div>
         <div class="share42init hide"></div>
+
+        <?= $this->render('/layouts/_likeVk'); ?>
     </div>
 </div>
 <div class="row">
@@ -184,7 +186,10 @@ $this->registerMetaTag([
     <div class="col-md-12">
         <div>
             <h3>Комментарии</h3>
-            <div>
+            <div class="col-sm-6">
+                <?= $this->render('/layouts/_commentVk'); ?>
+            </div>
+            <div class="col-sm-6">
                 <?= \frontend\widgets\CommentsWidget::widget(['entity' => Comment::ENTITY_ITEM, 'entity_id' => $item->id]); ?>
             </div>
         </div>

@@ -26,6 +26,12 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
     <title><?= Html::encode($this->title) ?></title>
     <link rel="icon" type="image/png" href="<?= '/img/v.png' ?>">
     <?php $this->head() ?>
+
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?146"></script>
+
+    <script type="text/javascript">
+        VK.init({apiId: 3757592, onlyWidgets: true});
+    </script>
 </head>
 <body>
 <?php $this->beginBody() ?>
