@@ -246,6 +246,9 @@ class SiteController extends Controller
 
     public function actionVoteAuto()
     {
+        if (rand(1,100) > 60) {
+            return $this->redirect(['site/index', 'tour' => true]);
+        }
         return $this->render('voteAuto');
     }
 }
