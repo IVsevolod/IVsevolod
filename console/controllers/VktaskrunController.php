@@ -101,7 +101,7 @@ class VktaskrunController extends Controller
 
         $vkTaskRun = VkTaskRun::find()->andWhere(['group_id' => $group_id])->orderBy('time desc')->one();
 
-        $interval = rand(7, 25);
+        $interval = rand(25, 37);
         if (empty($vkTaskRun)) {
             $datestart = strtotime(' + ' . $interval . ' min', time());
         } else {
@@ -279,12 +279,12 @@ class VktaskrunController extends Controller
     {
         //$access_token = '7e8c6a1d84ad87b030212e02811ec1ab276c19a74831fd350d9fda18751edb87c46aa177b5096b7dc1fd7';
         $access_token = '83b9dfd44fe0d74a000fe2e66f0c1c036ee451461745ed6c71aee3a58291bed35a84c438d6065d76e92d5';
-        $this->runTask($access_token, '40768668', ['happy', 'video', 'story'], ['happy', 'my_home_happy', 'для_души'], [120, 600]);
-        $this->runTask($access_token, '124470635', ['humor', 'gif', 'story'], ['humor', 'анекдоты', 'приколы', 'юмор'], [40, 120]);
+        $this->runTask($access_token, '40768668', ['happy', 'video', 'story'], ['happy', 'my_home_happy', 'для_души', 'picture'], [120, 600]);
+        $this->runTask($access_token, '124470635', ['humor', 'gif', 'story'], ['humor', 'анекдоты', 'приколы', 'юмор', 'picture'], [40, 120]);
 
         $access_token = \Yii::$app->params['nurVkAccessToken'];
         if (!empty($access_token)) {
-            $this->runTask($access_token, '2411559', ['humor', 'story'], [], [40, 100], 2);
+            $this->runTask($access_token, '2411559', ['humor', 'story', 'picture'], [], [40, 100], 2);
         }
     }
 }

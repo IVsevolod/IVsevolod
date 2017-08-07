@@ -22,6 +22,7 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='wmail-verification' content='9cbe0259acf0d32f3a48fc0051ac3f9f' />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <link rel="icon" type="image/png" href="<?= '/img/v.png' ?>">

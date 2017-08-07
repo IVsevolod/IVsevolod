@@ -10,4 +10,7 @@ echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView'     => '_listItemView',
     'summary'      => '',
+    'pager' => [
+        'class' => \common\components\LinkPager::class,
+    ]
 ]);

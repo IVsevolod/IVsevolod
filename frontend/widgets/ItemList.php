@@ -79,9 +79,10 @@ class ItemList extends \yii\bootstrap\Widget
                         'show_count',
                         'title',
                     ],
-                    'defaultOrder' => 'id',
+                    'defaultOrder' => [
+                        'show_count' => SORT_ASC
+                    ],
                 ]);
-                
                 $query->orderBy($sort->orders);
             }
             $dataProvider = new ActiveDataProvider([
