@@ -125,7 +125,7 @@ class ListController extends Controller
             return Yii::$app->getResponse()->redirect($item->getUrl());
         }
         if ($item && $item->load(Yii::$app->request->post())) {
-            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
+//            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             if ($item->save()) {
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);
                 $tags = explode(',', Yii::$app->request->post('tags'));
