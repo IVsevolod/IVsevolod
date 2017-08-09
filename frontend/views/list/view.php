@@ -116,7 +116,8 @@ $this->registerMetaTag([
         ?>
         <div class="item-text">
             <?php
-            echo HtmlPurifier::process($item->description, []);
+//            echo HtmlPurifier::process($item->description, []);
+            echo $item->description;
             ?>
         </div>
         <div class="margin-bottom tag-line-height">
