@@ -50,10 +50,11 @@ class ListController extends Controller
         }
         $item = new Item();
         if ($item->load(Yii::$app->request->post())) {
-            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
+//            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             $item->user_id = Yii::$app->user->identity->getId();
             $item->like_count = 0;
             $item->show_count = 0;
+            $item->entity_type = Item::ENTITY_TYPE_ITEM;
             if ($item->save()) {
                 // Добавляем теги
                 $tags = explode(',', Yii::$app->request->post('tags'));
