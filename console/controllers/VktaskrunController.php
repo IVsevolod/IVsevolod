@@ -126,6 +126,14 @@ class VktaskrunController extends Controller
                         $text .= "<br><br>" . $newP;
                     }
                 }
+                if (mb_strpos($text, 'Чебоксар') === false) {
+                    $newsAdded = new ParseNewsAdded();
+                    $newsAdded->group_id = $group_id;
+                    $newsAdded->src = $url;
+                    $newsAdded->save();
+
+                    continue;
+                }
 
                 if ($datestart < time()) {
                     $datestart = strtotime('+7 min', time());
@@ -148,6 +156,7 @@ class VktaskrunController extends Controller
                 $vkpost = new Vkpost();
                 $vkpost->text = $title . '<br><br>' . $text;
                 $vkpost->text = html_entity_decode($vkpost->text);
+
 
                 $vkpost->attachments = json_encode($attachments);
                 $vkpost->post_id = null;
