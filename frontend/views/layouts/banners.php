@@ -14,7 +14,7 @@
                 ";"+Math.random()+
                 "' alt='' title='LiveInternet: показано число просмотров за 24"+
                 " часа, посетителей за 24 часа и за сегодня' "+
-                "border='0' width='88' height='31'><\/a>")
+                "border='0' width='88' height='31'><\/a>");
             //--></script><!--/LiveInternet-->
     </div>
     <div>

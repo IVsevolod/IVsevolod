@@ -38,7 +38,7 @@ class LibraryController extends Controller
     {
         $list = [];
         if (empty($id)) {
-            $id = Yii::$app->params['mainLibraryId'];
+            $id = Yii::$app->params['mainLibraryId'] ?? null;
         }
         if (!empty($id)) {
             $treeItem = TreeItem::findOne($id);
