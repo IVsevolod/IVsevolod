@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /** @var \common\models\TreeItem $item */
 $item = $trees['item'];
 
-$action[0] = $actionPath;
+$action = $actionPath;
 $action['id'] = $item->id;
 ?>
 
