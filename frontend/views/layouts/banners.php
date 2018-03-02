@@ -6,7 +6,7 @@
 <div class="banners-list">
     <div>
         <!--LiveInternet counter--><script type="text/javascript"><!--
-            document.write("<a href='http://www.liveinternet.ru/click' "+
+            document.write("<a href='https://www.liveinternet.ru/click' "+
                 "target=_blank><img src='//counter.yadro.ru/hit?t14.5;r"+
                 escape(document.referrer)+((typeof(screen)=="undefined")?"":
                 ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
@@ -18,10 +18,10 @@
             //--></script><!--/LiveInternet-->
     </div>
     <div>
-        <a href="http://addssites.com" onClick="this.href='http://addssites.com/?usr=97776'" target="_blank"><img src="http://addssites.com/images/banner.gif" width=88 height=31 border=0 alt="Бесплатный каталог AddsSites, регистрация сайтов."></a>
+        <a href="https://addssites.com" onClick="this.href='https://addssites.com/?usr=97776'" target="_blank"><img src="https://addssites.com/images/banner.gif" width=88 height=31 border=0 alt="Бесплатный каталог AddsSites, регистрация сайтов."></a>
     </div>
     <div>
-        <a href="http://webplus.info/index.php?page=47&add_top_url=174230"><img alt="Каталог webplus.info" border=0 src="http://webplus.info/getres.php?infoforurl=174230&color=gray"></a>
+        <a href="https://webplus.info/index.php?page=47&add_top_url=174230"><img alt="Каталог webplus.info" border=0 src="https://webplus.info/getres.php?infoforurl=174230&color=gray"></a>
     </div>
     <div>
         <!-- Yandex.Metrika counter -->

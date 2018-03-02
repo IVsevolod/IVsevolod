@@ -286,8 +286,7 @@ class VktaskrunController extends Controller
 
     public function actionInit()
     {
-        //$access_token = '7e8c6a1d84ad87b030212e02811ec1ab276c19a74831fd350d9fda18751edb87c46aa177b5096b7dc1fd7';
-        $access_token = '83b9dfd44fe0d74a000fe2e66f0c1c036ee451461745ed6c71aee3a58291bed35a84c438d6065d76e92d5';
+        $access_token = \Yii::$app->params['nurVkAccessToken'];
         $this->runTask($access_token, '40768668', ['happy', 'video', 'story', 'picture'], ['happy', 'my_home_happy', 'для_души'], [120, 600]);
         $this->runTask($access_token, '124470635', ['humor', 'gif', 'story', 'picture'], ['humor', 'анекдоты', 'приколы', 'юмор'], [40, 120]);
 

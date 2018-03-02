@@ -13,7 +13,7 @@ use yii\base\Component;
 class Vkontakte extends Component
 {
 
-    const VERSION = '5.53';
+    const VERSION = '5.73';
 
     /**
      * The application ID
@@ -279,6 +279,9 @@ class Vkontakte extends Component
      */
     public function api($method, array $query = array())
     {
+        if (!isset($query['v'])) {
+            $query['v'] = self::VERSION;
+        }
         /* Generate query string from array */
         $parameters = array();
         foreach ($query as $param => $value) {
@@ -310,6 +313,9 @@ class Vkontakte extends Component
     {
         $ch = curl_init();
 
+        if (!isset($query['v'])) {
+            $query['v'] = self::VERSION;
+        }
         $parameters = array();
         foreach ($query as $param => $value) {
             $q = $param . '=';

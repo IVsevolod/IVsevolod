@@ -130,11 +130,16 @@ class VkontakteComponent extends Vkontakte
                     $response = $this->api('docs.save', [
                         'file' => $response->file,
                     ]);
-                    $attachments[] = $value['type'] . $response[0]->owner_id . '_' . $response[0]->did;
+                    if (!empty($response) && !empty($response[0]) && isset($response[0]->id)) {
+                        $attachments[] = $value['type'] . $response[0]->owner_id . '_' . $response[0]->id;
+                    }
                 } else if (isset($value['type']) && $value['type'] == 'photo') {
                     $response = $this->api('photos.getWallUploadServer', [
                         'group_id' => $groupId,
                     ]);
+                    if (empty($response->upload_url)) {
+                        continue;
+                    }
                     $uploadURL = $response->upload_url;
 
                     $tmpfname = tempnam("/tmp", "photo");
@@ -170,7 +175,7 @@ class VkontakteComponent extends Vkontakte
                         'hash' => $response->hash,
                     ]);
                     if (!empty($response) && !empty($response[0]) && isset($response[0]->id)) {
-                        $attachments[] = $response[0]->id;
+                        $attachments[] = 'photo' . $response[0]->owner_id . '_' . $response[0]->id;
                     }
                 } else if (isset($value['type']) && isset($valueData['owner_id']) && isset($valueData['pid'])) {
                     $attachments[] = $value['type'] . $valueData['owner_id'] . '_' . $valueData['pid'];
