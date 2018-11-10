@@ -45,7 +45,7 @@ class ZombieQuest extends BaseQuest
                     ],
                 ],
             ],
-            self::FRAME_START    => [
+            self::FRAME_HOSPITAL_CORRIDOR    => [
                 'title'    => 'Начало',
                 'view'     => 'main',
                 'textView' => 'textViews/hospital/corridor',

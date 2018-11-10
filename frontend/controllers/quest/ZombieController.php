@@ -24,7 +24,7 @@ class ZombieController extends Controller
                     [
                         'actions' => [],
                         'allow'   => true,
-                        'roles'   => ['@'],
+                        'roles'   => ['?'],
                     ],
                 ],
             ],
@@ -42,7 +42,7 @@ class ZombieController extends Controller
             $data = [];
         }
 
-        if ($data['action'] == ZombieQuest::FRAME_RESTART) {
+        if (($data['action'] ?? '') == ZombieQuest::FRAME_RESTART) {
             $quest->clearSession();
             $quest->loadFromSession();
             $quest = new ZombieQuest();
