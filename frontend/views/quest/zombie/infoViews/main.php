@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \yii\web\View                   $this
- * @var \common\models\quest\PartyQuest $quest
+ * @var \yii\web\View                    $this
+ * @var \common\models\quest\ZombieQuest $quest
  */
 
 use yii\helpers\Html;
@@ -17,7 +17,7 @@ function addInfo(&$infoArr, $key, $label) {
 };
 
 
-//addInfo($infoArr, 'Здоровье: ', $quest->getMoodLabel());
+addInfo($infoArr, 'Здоровье: ', $quest->health . ' %');
 
 
 foreach ($infoArr ?? [] as $item) {

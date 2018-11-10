@@ -11,10 +11,10 @@
 
     <ul class="">
         <li>
-            <a href="javascript: void(0);" data-action="look" class="js--quest-action">Посмотреть телевизор</a>
+            <a href="javascript: void(0);" data-action="look" class="js--quest-action">Идти в темный конец коридора</a>
         </li>
         <li>
-            <a href="javascript: void(0);" data-action="read" class="js--quest-action">Прочитать записку</a>
+            <a href="javascript: void(0);" data-action="read" class="js--quest-action">К горящей лампочке "Выход"</a>
         </li>
     </ul>
 </div>

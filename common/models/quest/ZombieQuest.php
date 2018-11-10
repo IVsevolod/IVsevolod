@@ -8,6 +8,8 @@ class ZombieQuest extends BaseQuest
 
     const FRAME_HOSPITAL_CORRIDOR = 'hospital_corridor';
 
+    public $health = 80;
+
     public $hospitalWarpFlag = [
         'look'     => false,
         'read'     => false,
@@ -38,7 +40,7 @@ class ZombieQuest extends BaseQuest
                             $this->hospitalWarpFlag['read'] = true;
                         }
                     ],
-                    'door' => [
+                    'goout' => [
                         'function' => function ($data) {
                             $this->frame = self::FRAME_HOSPITAL_CORRIDOR;
                         }
@@ -67,7 +69,8 @@ class ZombieQuest extends BaseQuest
         return array_merge(
             parent::rules(),
             [
-                [['hospitalWarpFlag'], 'safe'],
+                [['health'], 'integer'],
+                [['hospitalWarpFlag', 'health'], 'safe'],
             ]
         );
     }
