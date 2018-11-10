@@ -4,7 +4,7 @@
 
 ?>
 <div class="banners-list">
-    <div>
+    <span>
         <!--LiveInternet counter--><script type="text/javascript"><!--
             document.write("<a href='https://www.liveinternet.ru/click' "+
                 "target=_blank><img src='//counter.yadro.ru/hit?t14.5;r"+
@@ -16,14 +16,14 @@
                 " часа, посетителей за 24 часа и за сегодня' "+
                 "border='0' width='88' height='31'><\/a>");
             //--></script><!--/LiveInternet-->
-    </div>
-    <div>
+    </span>
+    <span>
         <a href="https://addssites.com" onClick="this.href='https://addssites.com/?usr=97776'" target="_blank"><img src="https://addssites.com/images/banner.gif" width=88 height=31 border=0 alt="Бесплатный каталог AddsSites, регистрация сайтов."></a>
-    </div>
-    <div>
+    </span>
+    <span>
         <a href="https://webplus.info/index.php?page=47&add_top_url=174230"><img alt="Каталог webplus.info" border=0 src="https://webplus.info/getres.php?infoforurl=174230&color=gray"></a>
-    </div>
-    <div>
+    </span>
+    <span>
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
             (function (d, w, c) {
@@ -52,8 +52,8 @@
         </script>
         <noscript><div><img src="https://mc.yandex.ru/watch/45383202" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <!-- /Yandex.Metrika counter -->
-    </div>
-    <div>
+    </span>
+    <span>
         <!-- Rating@Mail.ru counter -->
         <script type="text/javascript">
             var _tmr = window._tmr || (window._tmr = []);
@@ -69,6 +69,6 @@
                 <img src="//top-fwz1.mail.ru/counter?id=2917150;js=na" style="border:0;position:absolute;left:-9999px;" alt="" />
             </div></noscript>
         <!-- //Rating@Mail.ru counter -->
-    </div>
+    </span>
 
 </div>

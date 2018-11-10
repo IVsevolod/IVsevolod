@@ -1,0 +1,94 @@
+html,
+body {
+    height: 100%;
+    background-image: url("../zombie/background/bg.jpg");
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.footer {
+    height: 60px;
+    color: #9d9d9d;
+    background-color: #222;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+}
+
+.quest-block-left {
+    height: calc(100vh - 60px);
+    padding: 10px 10px 10px 10px;
+
+    color: #2c4359;
+    font-family: 'Trebuchet MS', 'Droid Sans', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', sans-serif;
+}
+.quest-block-rigth {
+    height: calc(100vh - 60px);
+    padding: 10px 10px 10px 10px;
+
+    color: #2c4359;
+    font-family: 'Trebuchet MS', 'Droid Sans', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', sans-serif;
+}
+
+.quest-border {
+    border-width: 18px;
+    border-style: solid;
+    border-color: inherit;
+    /*border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEUAAACzs7P//+bLAAAAAXRSTlMAQObYZgAAAGpJREFUGNO90LERgCAQRNHvEJhRAYVQjiXQgZR2dEIJdnB6zsg5RpoIwQtvd9HzyfD1n1S7GVQ3c4ZsRkhmgmhmmM0CoR52mERoAnRBK7C6zVx+0+8LoCOf57X8Vx/v531Dpdz34NOKz/13FrKVvL8EnkUAAAAASUVORK5CYII=) 18 round;*/
+    border-image: url("../zombie/background/border.png") 45% round;
+}
+
+.quest-block-left .quest-block-text {
+    height: 100%;
+    background-color: #f9f7f0;
+    padding: 20px;
+
+    top: 36px;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.quest-block-rigth .quest-block-image {
+    height: 50%;
+    background-color: #f9f7f0;
+    margin-bottom: 10px;
+    position: relative;
+}
+.quest-block-rigth .quest-block-image .quest-block-image-background {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    background-position: center 30%;
+    background-size: cover;
+}
+
+.quest-block-rigth .quest-block-info {
+    height: calc(50% - 10px);
+    background-color: #f9f7f0;
+    padding: 10px;
+}
+
+.quest-choice-action {
+    margin-left: 1.75em;
+}
+.quest-choice-action a {
+    display: block;
+    margin: 0.5em;
+}
+
+.quest-select-text {
+    color: #2b669a;
+    font-weight: bold;
+}
+
+.right-bottom-text {
+    position: absolute;
+    right: 40px;
+    bottom: 30px;
+}

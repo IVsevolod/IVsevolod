@@ -48,6 +48,8 @@ return [
                 'vote/<action:[\w-]+>/<entity:[\w-]+>/<id:[\d+]>/<vote:[\d+]>' => 'vote/<action>',
                 '<controller:[\w-]+>/<action:[\w-]+>/<id:[\d+]>'               => '<controller>/<action>',
                 '<controller:[\w-]+>/<action:[\w-]+>'                          => '<controller>/<action>',
+                'quest/zombie'                                                 => 'quest/zombie/index',
+
             ],
         ],
         'vkapi'        => [
