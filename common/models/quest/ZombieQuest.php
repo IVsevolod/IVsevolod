@@ -5,14 +5,16 @@ use yii\helpers\HtmlPurifier;
 
 class ZombieQuest extends BaseQuest
 {
-
     const FRAME_HOSPITAL_CORRIDOR = 'hospital_corridor';
 
     public $health = 80;
 
+    public $hunger = 10;
+    
     public $hospitalWarpFlag = [
-        'look'     => false,
-        'read'     => false,
+        'look'     => false, // смотрели телик?
+        'read'     => false, // читали записку?
+        'axe' => false, // нашли топор?
     ];
 
     protected function getSessionName()
@@ -54,7 +56,11 @@ class ZombieQuest extends BaseQuest
                 'infoView' => 'infoViews/main',
                 'image'    => 'hospital_warp.jpg',
                 'actions'  => [
-
+                    'axe' => [
+                        'function' => function ($data) {
+                            $this->hospitalWarpFlag['axe'] = true;
+                        }
+                    ],
                 ]
             ]
         ];
@@ -69,8 +75,8 @@ class ZombieQuest extends BaseQuest
         return array_merge(
             parent::rules(),
             [
-                [['health'], 'integer'],
-                [['hospitalWarpFlag', 'health'], 'safe'],
+                [['health', 'hunger'], 'integer'],
+                [['hospitalWarpFlag'], 'safe'],
             ]
         );
     }

@@ -18,6 +18,7 @@ function addInfo(&$infoArr, $key, $label) {
 
 
 addInfo($infoArr, 'Здоровье: ', $quest->health . ' %');
+addInfo($infoArr, 'Голод: ', $quest->hunger . ' %');
 
 
 foreach ($infoArr ?? [] as $item) {
