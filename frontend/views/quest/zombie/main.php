@@ -15,6 +15,9 @@ $imageUrl = Url::to($imageStr);
     <?php \yii\widgets\Pjax::begin(); ?>
     <div class="row">
         <div class="col-sm-8 quest-block-left">
+            <div class="block-loader hide">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
             <div class="quest-block-text quest-border">
                 <?php
                 echo Html::beginForm('', 'post', ['id' => 'questForm', 'data-pjax' => '']);

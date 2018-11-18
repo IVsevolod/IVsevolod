@@ -24,7 +24,6 @@ class ZombieController extends Controller
                     [
                         'actions' => [],
                         'allow'   => true,
-                        'roles'   => ['?'],
                     ],
                 ],
             ],
