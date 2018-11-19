@@ -4,6 +4,9 @@
  * @var \common\models\quest\ZombieQuest $quest
  */
 
+//$barik = false; // посещали барикаду?
+
+// если мы в темном конце коридора, то проверим, лежит ли там топор
 if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
     $objects = $quest->getObjectsByLocation(\common\models\quest\ZombieQuest::FRAME_HOSPITAL_CORRIDOR);
     $hasAxe = false;
@@ -12,6 +15,7 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
             $hasAxe = true;
         }
     }
+    // а если мы у баррикады
 } elseif ($quest->hospitalWarpFlag['corridorLocation'] == 2) {
     // Находим все предметы в руках
     $objects = $quest->getObjectsByLocation(\common\models\quest\ZombieQuest::OBJECT_LOCATION_SELF);
@@ -27,25 +31,43 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
 ?>
 <div>
     <p>
-        Хотя на улице и светло, кородор в полутьме, освещение не работает. Только в аварийном режиме мигает лампа "Выход".
+        Хотя на улице и светло, коридор в полутьме, освещение не работает. Только в аварийном режиме мигает лампа "Выход".
         Противоположный конец коридора вообще погружен в темноту.
+        <br>
     </p>
     <?php
+    // мы около баррикады
     if ($quest->hospitalWarpFlag['corridorLocation'] == 2) {
         ?>
         <i>
-            Ладно хоть зомби не видать, похоже, меня действительно от них закрыли. Той барикадой из досок, что закрывает дверь
+            Ладно хоть зомби не видно, похоже, меня действительно от них закрыли. Той баррикадой из досок, что закрывает дверь
             под лампой "Выход". А мне-то как выйти????
         </i>
         <?php
+
+        // флаг, что хоть один раз посетили баррикаду
+        if (!$quest->barik)
+            $quest->barik=true;
+
+        // иначе пошли в темный конец коридора
     } elseif ($quest->hospitalWarpFlag['corridorLocation'] == 1 && $hasAxe) {
         // Топор лежит на месте, его можно подобрать
-        // todo: Изменить текст
+
         ?>
         <p>
-            На стене висит пожарный топор.
+            Глаза постепенно привыкают к темноте, и мы видим на стене пожарный щит. Предметы на нём не тронуты, сюда
+            ещё никто не добирался. На щите висит пожарный топор.
         </p>
         <?php
+        if ($quest->barik) {
+            ?>
+            <br><i>О, попробуем разбить ту баррикаду этим топором!</i>
+            <?php
+        }else {
+            ?>
+            <br><i>Возьмём, пригодится.</i>
+            <?php
+        }
     }
     ?>
 
@@ -62,13 +84,13 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
             if ($hasBreakingWeapon) {
                 ?>
                 <li>
-                    <a href="javascript: void(0);" data-action="crash" class="js--quest-action">Разбить барикаду топором</a>
+                    <a href="javascript: void(0);" data-action="crash" class="js--quest-action">Разбить баррикаду топором</a>
                 </li>
                 <?php
             } elseif (!$quest->hospitalWarpFlag['tryToBreak']) {
                 ?>
                 <li>
-                    <a href="javascript: void(0);" data-action="bop" class="js--quest-action">Разбить барикаду</a>
+                    <a href="javascript: void(0);" data-action="bop" class="js--quest-action">Попробовать разбить баррикаду</a>
                 </li>
                 <?php
             }
@@ -79,7 +101,7 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
         if ($quest->hospitalWarpFlag['corridorLocation'] != 2) {
             ?>
             <li>
-                <a href="javascript: void(0);" data-action="barricade" class="js--quest-action">Идти к барикаде</a>
+                <a href="javascript: void(0);" data-action="barricade" class="js--quest-action">Идти к баррикаде</a>
             </li>
             <?php
             foreach ($objects ?? [] as $object) {

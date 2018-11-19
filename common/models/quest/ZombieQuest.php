@@ -8,15 +8,17 @@ class ZombieQuest extends BaseQuest
     const FRAME_HOSPITAL_CORRIDOR = 'hospital_corridor';
     const FRAME_HOSPITAL_YARD = 'hospital_yard';
 
-    public $health = 80;
+    public $health = 80; // уровень здоровья
 
-    public $hunger = 10;
+    public $hunger = 10; // уровень голода
 
     const OBJECT_LOCATION_SELF = 1;
 
     const OBJECT_TYPE_SHORT_RANGE_WEAPON = 1;
     const OBJECT_TYPE_LONG_RANGE_WEAPON = 2;
     const OBJECT_TYPE_BREAKING_WEAPON = 3;
+
+    public $barik = false; // посещали барикаду в коридоре хоть раз?
 
 //    const OBJECT_TYPE_LONG_RANGE_WEAPON = 2;
 
@@ -128,7 +130,7 @@ class ZombieQuest extends BaseQuest
                     'barricade' => [
                         'function' => function ($data) {
                             // Идем к баррикаде
-                            $this->hospitalWarpFlag['corridorLocation'] = 2;
+                            $this->hospitalWarpFlag['corridorLocation'] = 2;                            
                         },
                     ],
                     'take-object' => [
@@ -175,7 +177,7 @@ class ZombieQuest extends BaseQuest
         return array_merge(
             parent::rules(),
             [
-                [['health', 'hunger'], 'integer'],
+                [['health', 'hunger', 'barik'], 'integer'],
                 [['hospitalWarpFlag', 'objects',], 'safe'],
             ]
         );
