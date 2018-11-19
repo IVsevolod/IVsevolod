@@ -1,14 +1,16 @@
 <?php
 /**
  * @var \yii\web\View                    $this
- * @var \common\models\quest\ZombieQuest $quest
+ * @var ZombieQuest $quest
  */
 
 //$barik = false; // посещали барикаду?
 
 // если мы в темном конце коридора, то проверим, лежит ли там топор
+use common\models\quest\ZombieQuest;
+
 if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
-    $objects = $quest->getObjectsByLocation(\common\models\quest\ZombieQuest::FRAME_HOSPITAL_CORRIDOR);
+    $objects = $quest->getObjectsByLocation(ZombieQuest::FRAME_HOSPITAL_CORRIDOR);
     $hasAxe = false;
     foreach ($objects ?? [] as $object) {
         if ($object['id'] == 1) {
@@ -18,11 +20,11 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
     // а если мы у баррикады
 } elseif ($quest->hospitalWarpFlag['corridorLocation'] == 2) {
     // Находим все предметы в руках
-    $objects = $quest->getObjectsByLocation(\common\models\quest\ZombieQuest::OBJECT_LOCATION_SELF);
+    $objects = $quest->getObjectsByLocation(ZombieQuest::OBJECT_LOCATION_SELF);
     // Наличие разрушающего оружия, например топор
     $hasBreakingWeapon = false;
     foreach ($objects ?? [] as $object) {
-        if ($object['type'] == \common\models\quest\ZombieQuest::OBJECT_TYPE_BREAKING_WEAPON) {
+        if ($object['type'] == ZombieQuest::OBJECT_TYPE_BREAKING_WEAPON) {
             $hasBreakingWeapon = true;
         }
     }
@@ -46,8 +48,7 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
         <?php
 
         // флаг, что хоть один раз посетили баррикаду
-        if (!$quest->barik)
-            $quest->barik=true;
+
 
         // иначе пошли в темный конец коридора
     } elseif ($quest->hospitalWarpFlag['corridorLocation'] == 1 && $hasAxe) {
@@ -59,7 +60,7 @@ if ($quest->hospitalWarpFlag['corridorLocation'] == 1) {
             ещё никто не добирался. На щите висит пожарный топор.
         </p>
         <?php
-        if ($quest->barik) {
+        if ($quest->getLocationCount(ZombieQuest::FRAME_HOSPITAL_CORRIDOR, ['barricade'])) {
             ?>
             <br><i>О, попробуем разбить ту баррикаду этим топором!</i>
             <?php

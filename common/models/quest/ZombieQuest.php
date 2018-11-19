@@ -18,8 +18,6 @@ class ZombieQuest extends BaseQuest
     const OBJECT_TYPE_LONG_RANGE_WEAPON = 2;
     const OBJECT_TYPE_BREAKING_WEAPON = 3;
 
-    public $barik = false; // посещали барикаду в коридоре хоть раз?
-
 //    const OBJECT_TYPE_LONG_RANGE_WEAPON = 2;
 
 
@@ -82,6 +80,39 @@ class ZombieQuest extends BaseQuest
         'tryToBreak'       => false,
     ];
 
+    /**
+     * @var array Счетчик посещений локации. Больше нужно для определения, где он впервые
+     */
+    public $locationCount = [];
+
+    /**
+     * Переход на новую локацию, вызывает увеличение счетчика
+     * @param       $newFrame
+     * @param array $additionalKeys
+     */
+    public function setStepFrame($newFrame, $additionalKeys = [])
+    {
+        $this->frame = $newFrame;
+        $countKey = $newFrame . join('#', $additionalKeys);
+        if (!isset($this->locationCount[$countKey])) {
+            $this->locationCount[$countKey] = 0;
+        }
+        $this->locationCount[$countKey]++;
+    }
+
+    /**
+     * Получить количество посещений с учетом дополнительного параметра
+     * @param       $frame
+     * @param array $additionalKeys
+     *
+     * @return mixed|string
+     */
+    public function getLocationCount($frame, $additionalKeys = [])
+    {
+        $countKey = $frame . join('#', $additionalKeys);
+        return $this->locationCount[$countKey] ?? '';
+    }
+
     protected function getSessionName()
     {
         return 'questZombie';
@@ -109,7 +140,7 @@ class ZombieQuest extends BaseQuest
                     ],
                     'goout' => [
                         'function' => function ($data) {
-                            $this->frame = self::FRAME_HOSPITAL_CORRIDOR;
+                            $this->setStepFrame(self::FRAME_HOSPITAL_CORRIDOR);
                         },
                     ],
                 ],
@@ -125,12 +156,14 @@ class ZombieQuest extends BaseQuest
                         'function' => function ($data) {
                             // Идем в темный конец корридора
                             $this->hospitalWarpFlag['corridorLocation'] = 1;
+                            $this->setStepFrame(self::FRAME_HOSPITAL_CORRIDOR, ['dark']);
                         },
                     ],
                     'barricade' => [
                         'function' => function ($data) {
                             // Идем к баррикаде
-                            $this->hospitalWarpFlag['corridorLocation'] = 2;                            
+                            $this->hospitalWarpFlag['corridorLocation'] = 2;
+                            $this->setStepFrame(self::FRAME_HOSPITAL_CORRIDOR, ['barricade']);
                         },
                     ],
                     'take-object' => [
@@ -150,7 +183,21 @@ class ZombieQuest extends BaseQuest
                     ],
                     'crash' => [
                         'function' => function ($data) {
-                            $this->frame = self::FRAME_HOSPITAL_YARD;
+                            // Находим все предметы в руках
+                            $objects = $this->getObjectsByLocation(ZombieQuest::OBJECT_LOCATION_SELF);
+                            // Наличие разрушающего оружия, например топор
+                            $hasBreakingWeapon = false;
+                            foreach ($objects ?? [] as $object) {
+                                if ($object['type'] == ZombieQuest::OBJECT_TYPE_BREAKING_WEAPON) {
+                                    $hasBreakingWeapon = true;
+                                }
+                            }
+                            if ($hasBreakingWeapon) {
+                                $this->setStepFrame(self::FRAME_HOSPITAL_YARD);
+                            } else {
+                                $this->hospitalWarpFlag['corridorLocation'] = 2;
+                                $this->setStepFrame(self::FRAME_HOSPITAL_CORRIDOR, ['barricade']);
+                            }
                         },
                     ]
                 ],
@@ -177,8 +224,8 @@ class ZombieQuest extends BaseQuest
         return array_merge(
             parent::rules(),
             [
-                [['health', 'hunger', 'barik'], 'integer'],
-                [['hospitalWarpFlag', 'objects',], 'safe'],
+                [['health', 'hunger'], 'integer'],
+                [['hospitalWarpFlag', 'objects', 'locationCount'], 'safe'],
             ]
         );
     }
