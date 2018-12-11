@@ -321,6 +321,8 @@ class Vkontakte extends Component
             $q = $param . '=';
             if (is_array($value)) {
                 $q .= urlencode(implode(',', $value));
+            } elseif (is_numeric($value)) {
+                $q .= urlencode($value);
             } else {
                 $q .= urlencode($value);
             }
