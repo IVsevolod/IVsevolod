@@ -268,7 +268,7 @@ class VktaskrunController extends Controller
                     }
                 }
                 shuffle($imgElements);
-                $imgElements = array_slice($imgElements, 0, 8);
+                $imgElements = array_slice($imgElements, 0, 5);
 
                 $attachments = [];
 
@@ -283,7 +283,7 @@ class VktaskrunController extends Controller
                 $attachments[] = [
                     'type'  => 'photo',
                     'photo' => [
-                        'src_big' => 'https://www.ivsevolod.ru/img/chebNews.jpg',
+                        'src_big' => 'https://ivsevolod.ru/img/chebNews.jpg',
                     ],
                 ];
 
@@ -298,7 +298,7 @@ class VktaskrunController extends Controller
 
                 $vkpost->attachments = json_encode($attachments);
                 $vkpost->post_id = null;
-                $response = $vkapi->vkPostFromModel($group_id, $datestart, $vkpost, ['Чебоксары', 'Cheboksary', 'Geometria']);
+                $response = $vkapi->vkPostFromModel($group_id, $datestart, $vkpost, ['Чебоксары', 'Cheboksary', 'Geometria', 'cheb21news']);
 
                 if ($response) {
                     $vknewtaskrun = new VkTaskRun();

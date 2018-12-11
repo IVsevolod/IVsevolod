@@ -180,6 +180,7 @@ class VkontakteComponent extends Vkontakte
                 } else if (isset($value['type']) && isset($valueData['owner_id']) && isset($valueData['pid'])) {
                     $attachments[] = $value['type'] . $valueData['owner_id'] . '_' . $valueData['pid'];
                 }
+                usleep(150000);
             }
             $attachments = join(',', $attachments);
         }
