@@ -81,7 +81,7 @@ class SimpleHtmlDom
 		curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
 		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1');
+		curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2');
 		$content = curl_exec($curl_handle);
 		curl_close($curl_handle);
 		return $content;

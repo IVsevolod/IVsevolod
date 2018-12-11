@@ -168,7 +168,7 @@ class VkontakteComponent extends Vkontakte
 
                     unlink($tmpfname);
 
-                    $response = $this->api('photos.saveWallPhoto', [
+                    $response = (array)$this->api('photos.saveWallPhoto', [
                         'group_id' => $groupId,
                         'photo' => $response->photo,
                         'server' => $response->server,

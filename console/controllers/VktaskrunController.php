@@ -8,6 +8,7 @@ use common\models\VkTaskRun;
 use yii\console\Controller;
 use yii\db\Expression;
 use common\components\SimpleHtmlDom;
+use yii\helpers\Url;
 
 class VktaskrunController extends Controller
 {
@@ -179,6 +180,141 @@ class VktaskrunController extends Controller
 
             }
             if ($i > 1) {
+                break;
+            }
+        }
+    }
+
+    public function actionGeometriaEvents()
+    {
+        $group_id = '2411559';
+
+        $html = SimpleHtmlDom::file_get_html('https://geometria.ru/cheb/events/');
+        $items = $html->find('div.reportItem');
+        $urls = [];
+        foreach ($items ?? [] as $item) {
+            if (!is_null($item)) {
+                $title = '';
+                $url = null;
+
+                $divTitle = $item->find('div.title');
+                if (!is_null($divTitle)) {
+                    $divTitle = array_shift($divTitle);
+                    $titleArr = [];
+                    $placeName = $divTitle->find('a.placeName');
+                    $reportLink = $divTitle->find('a.reportLink');
+                    if ($placeName) {
+                        $placeName = array_shift($placeName);
+                        $titleArr[] = trim($placeName->plaintext);
+                    }
+                    if ($reportLink) {
+                        $reportLink = array_shift($reportLink);
+                        $url = "https://geometria.ru" . $reportLink->href;
+                        $titleArr[] = trim($reportLink->plaintext);
+                    }
+                    $title = join(' - ', $titleArr);
+                }
+                if (empty($url)) {
+                    continue;
+                }
+                $urls[] = $url;
+                $events[] = [
+                    'url'   => $url,
+                    'title' => $title,
+                ];
+            }
+        }
+        /** @var ParseNewsAdded $urlsModel */
+        $urlsModel = ParseNewsAdded::find()->where(['group_id' => $group_id, 'src' => $urls])->all();
+
+        $existUrl = [];
+        $existUrl[$group_id] = [];
+        foreach ($urlsModel as $item) {
+            $existUrl[$item->group_id][] = $item->src;
+        }
+
+        $vkTaskRun = VkTaskRun::find()->andWhere(['group_id' => $group_id])->orderBy('time desc')->one();
+
+
+        $interval = rand(25, 37);
+        if (empty($vkTaskRun)) {
+            $datestart = strtotime(' + ' . $interval . ' min', time());
+        } else {
+            $datestart = strtotime(' + ' . $interval . ' min', $vkTaskRun->time);
+        }
+        foreach ($events ?? [] as $event) {
+            $url = $event['url'];
+            if (!in_array($url, $existUrl[$group_id] ?? [])) {
+                $access_token = \Yii::$app->params['nurVkAccessToken'];
+                $vkapi = \Yii::$app->vkapi;
+                $vkapi->initAccessToken($access_token);
+
+                $html = SimpleHtmlDom::file_get_html($url);
+
+                $breadcrumbs = $html->find('.b-breadcrumbs a');
+                $title = '';
+                if (is_array($breadcrumbs)) {
+                    $breadcrumb = end($breadcrumbs);
+                    $title = trim($breadcrumb->plaintext);
+                }
+
+                $items = $html->find('a.pictureLink img');
+                $imgElements = [];
+                foreach ($items ?? [] as $item) {
+                    $src = $item->src ?? '';
+                    if (!empty($src)) {
+                        $src = str_replace('thumbnail', 'original', $src);
+                        $imgElements[] = $src;
+                    }
+                }
+                shuffle($imgElements);
+                $imgElements = array_slice($imgElements, 0, 8);
+
+                $attachments = [];
+                $attachments[] = [
+                    'type'  => 'photo',
+                    'photo' => [
+                        'src_big' => 'https://ivsevolod.ru/img/chebNews.jpg',
+                    ],
+                ];
+
+                foreach ($imgElements ?? [] as $src) {
+                    $attachments[] = [
+                        'type'  => 'photo',
+                        'photo' => [
+                            'src_big' => $src,
+                        ],
+                    ];
+                }
+
+                $title .= '<br>' . ($event['title'] ?? '');
+                $text = 'Источник: ' . $url;
+
+                $vkpost = new Vkpost();
+                $vkpost->text = '@cheb21news (ЧЕБОКСАРЫ, Новости)<br>'
+                    . $title . '<br><br>'
+                    . $text;
+                $vkpost->text = html_entity_decode($vkpost->text);
+
+                $vkpost->attachments = json_encode($attachments);
+                $vkpost->post_id = null;
+                $response = $vkapi->vkPostFromModel($group_id, $datestart, $vkpost, ['Чебоксары', 'Cheboksary', 'Geometria']);
+
+                if ($response) {
+                    $vknewtaskrun = new VkTaskRun();
+                    $vknewtaskrun->time = $datestart;
+                    $vknewtaskrun->group_id = $group_id;
+                    $vknewtaskrun->save();
+                    $datestart = strtotime(' + ' . $interval . ' min', $datestart);
+
+                    $newsAdded = new ParseNewsAdded();
+                    $newsAdded->group_id = $group_id;
+                    $newsAdded->src = $url;
+                    $newsAdded->save();
+                } else {
+                    var_dump($response);
+                }
+
                 break;
             }
         }
