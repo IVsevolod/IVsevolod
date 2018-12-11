@@ -271,12 +271,6 @@ class VktaskrunController extends Controller
                 $imgElements = array_slice($imgElements, 0, 8);
 
                 $attachments = [];
-                $attachments[] = [
-                    'type'  => 'photo',
-                    'photo' => [
-                        'src_big' => 'https://ivsevolod.ru/img/chebNews.jpg',
-                    ],
-                ];
 
                 foreach ($imgElements ?? [] as $src) {
                     $attachments[] = [
@@ -286,6 +280,12 @@ class VktaskrunController extends Controller
                         ],
                     ];
                 }
+                $attachments[] = [
+                    'type'  => 'photo',
+                    'photo' => [
+                        'src_big' => 'https://www.ivsevolod.ru/img/chebNews.jpg',
+                    ],
+                ];
 
                 $title .= '<br>' . ($event['title'] ?? '');
                 $text = 'Источник: ' . $url;
