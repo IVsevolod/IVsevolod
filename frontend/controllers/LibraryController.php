@@ -42,7 +42,7 @@ class LibraryController extends Controller
         }
         if (!empty($id)) {
             $treeItem = TreeItem::findOne($id);
-            $list = $treeItem->getList();
+            $list = $treeItem ? $treeItem->getList() : [];
         }
 
         return $this->render('index', [

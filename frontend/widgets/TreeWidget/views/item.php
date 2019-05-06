@@ -12,6 +12,9 @@ use yii\helpers\Html;
 $item = $trees['item'];
 
 $action = $actionPath;
+if (empty($item)) {
+    return '';
+}
 $action['id'] = $item->id;
 ?>
 

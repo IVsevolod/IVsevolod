@@ -19,9 +19,9 @@ class m160725_125012_addVkPost extends Migration
             'owner_id'    => Schema::TYPE_INTEGER . ' NOT NULL',
             'date'        => Schema::TYPE_INTEGER . ' NOT NULL',
             'post_type'   => Schema::TYPE_STRING . ' NOT NULL',
-            'text'        => Schema::TYPE_TEXT . ' DEFAULT ""',
+            'text'        => Schema::TYPE_TEXT,
             'category'    => Schema::TYPE_STRING . ' DEFAULT "none"',
-            'attachments' => Schema::TYPE_TEXT . ' DEFAULT ""',
+            'attachments' => Schema::TYPE_TEXT,
         ], $tableOptions);
     }
 

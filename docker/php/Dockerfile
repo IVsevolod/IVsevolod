@@ -23,7 +23,7 @@ RUN docker-php-ext-install mcrypt zip intl mbstring exif bcmath opcache \
     && docker-php-ext-install gd
 
 # Install Postgre PDO
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install Xdebug
 RUN pecl install -o -f xdebug \
