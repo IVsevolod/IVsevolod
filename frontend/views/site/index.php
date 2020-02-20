@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 
 $this->registerCssFile('pe-icon-social/css/pe-icon-social.css');

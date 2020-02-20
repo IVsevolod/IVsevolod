@@ -1,7 +1,7 @@
 <div style="height: 200px;">
     <form action="http://www.mice-award.ru/vote.php" target="_blank" method="post">
         <input type="hidden" name="nomination" value="37">
-        <input type="hidden" name="nominie" value="1100">
+        <input type="hidden" name="nominie" value="1592">
         <input type="submit" value="Голосовать">
     </form>
 </div>
