@@ -2,6 +2,7 @@
 namespace frontend\controllers\games;
 
 use common\models\BullsAndCows;
+use common\models\BullsAndCowsUser;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -81,17 +82,32 @@ class BullsAndCowsController extends Controller
             return $this->redirect(['games/bulls-and-cows/index']);
         }
 
-        if ($request->isPost) {
+        $bullsAndCowsUserExists = $bullsAndCows->getBacUsers()->andWhere(['number' => $bullsAndCows->number])->exists();
+        if ($request->isPost && !$bullsAndCowsUserExists) {
             $post = $request->post();
             $value = $post['value'];
-            list($bulls, $cows) = $this->testBullAndCow($bullsAndCows->number, $value);
+            if (strlen($value) == $bullsAndCows->length) {
+                list($bulls, $cows) = $this->testBullAndCow($bullsAndCows->number, $value);
+
+                $bacUser = new BullsAndCowsUser([
+                    'bac_id' => $bullsAndCows->id,
+                    'bulls'  => $bulls,
+                    'cows'   => $cows,
+                    'number' => $value,
+                ]);
+
+                $bacUser->save();
+                return $this->redirect(['games/bulls-and-cows/enter-value', 'alias' => $alias]);
+            } else {
+                \Yii::$app->session->addFlash('error', 'Длина числа должна быть равна ' . $bullsAndCows->length);
+            }
         }
 
         return $this->render('enterValue', [
-            'oldValue' => $value ?? false,
-            'bulls'    => $bulls ?? false,
-            'cows'     => $cows ?? false,
-            'alias'    => $alias,
+            'bullsAndCows'           => $bullsAndCows,
+            'bulls'                  => $bulls ?? false,
+            'cows'                   => $cows ?? false,
+            'bullsAndCowsUserExists' => $bullsAndCowsUserExists,
         ]);
     }
 

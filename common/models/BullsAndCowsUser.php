@@ -4,7 +4,6 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -12,22 +11,21 @@ use yii\web\IdentityInterface;
  * Class BullsAndCows
  *
  * @property int     $id
+ * @property int     $bac_id
  * @property string  $number
- * @property integer $length
- * @property string  $alias
+ * @property integer $bulls
+ * @property integer $cows
  * @property integer $date_update
  * @property integer $date_create
- *
- * @property BullsAndCowsUser[] $bacUsers
  */
-class BullsAndCows extends ActiveRecord
+class BullsAndCowsUser extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'bulls_and_cows';
+        return 'bulls_and_cows_user';
     }
 
     /**
@@ -52,8 +50,8 @@ class BullsAndCows extends ActiveRecord
     public function rules()
     {
         return [
-            [['date_update', 'date_create', 'length'], 'integer'],
-            [['number', 'alias'], 'string'],
+            [['date_update', 'date_create', 'bac_id', 'bulls', 'cows'], 'integer'],
+            [['number'], 'string'],
         ];
     }
 
@@ -65,32 +63,13 @@ class BullsAndCows extends ActiveRecord
     {
         return [
             'id'          => 'ID',
+            'bac_id'      => 'Bac id',
             'number'      => 'Загаданное число',
-            'length'      => 'Длина числа',
-            'alias'       => 'Группировка',
+            'bulls'       => 'Быков',
+            'cows'        => 'оров',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
-    }
-
-    public function generateAlias()
-    {
-        return md5($this->number . '_' . rand(10, 99) . '_'. $this->length);
-    }
-
-    public function generateNumber($length = 5)
-    {
-        $this->length = 5;
-        $this->number = '49537';
-        $this->alias = $this->generateAlias();
-    }
-
-    /**
-     * @return ActiveQuery
-     */
-    public function getBacUsers() : ActiveQuery
-    {
-        return  $this->hasMany(BullsAndCowsUser::class, ['bac_id' => 'id'])->orderBy(['id' => SORT_DESC]);
     }
 
 }
