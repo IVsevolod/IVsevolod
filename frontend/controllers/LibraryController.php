@@ -7,6 +7,7 @@ use common\models\TagEntity;
 use common\models\Tags;
 use common\models\TreeItem;
 use common\models\User;
+use common\models\Vkpost;
 use common\models\Vote;
 use Yii;
 use yii\data\Pagination;
@@ -255,5 +256,38 @@ class LibraryController extends Controller
                 'pages'    => $pages,
             ]
         );
+    }
+
+    public function actionHumor($id)
+    {
+        $vkPost = Vkpost::find()
+            ->where(['category' => 'humor'])
+            ->andWhere(['not', ['text' => '']])
+            ->andWhere(['id' => $id])
+            ->limit(1)
+            ->one();
+        return $this->render('vkpost', ['vkPost' => $vkPost]);
+    }
+
+    public function actionStory($id)
+    {
+        $vkPost = Vkpost::find()
+            ->where(['category' => 'story'])
+            ->andWhere(['not', ['text' => '']])
+            ->andWhere(['id' => $id])
+            ->limit(1)
+            ->one();
+        return $this->render('vkpost', ['vkPost' => $vkPost]);
+    }
+
+    public function actionHappy($id)
+    {
+        $vkPost = Vkpost::find()
+            ->where(['category' => 'happy'])
+            ->andWhere(['not', ['text' => '']])
+            ->andWhere(['id' => $id])
+            ->limit(1)
+            ->one();
+        return $this->render('vkpost', ['vkPost' => $vkPost]);
     }
 }

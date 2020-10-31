@@ -1,33 +1,48 @@
-FROM php:7.0-fpm
+FROM php:7.4-fpm
 
 # Install modules
+
+RUN apt-get update \
+  && apt-get install -y \
+             vim \
+             libfreetype6-dev \
+             libjpeg62-turbo-dev \
+             libmcrypt-dev \
+             libpng-dev \
+             zlib1g-dev \
+             libxml2-dev \
+             libzip-dev \
+             libonig-dev \
+             graphviz \
+             libcurl4-openssl-dev \
+             pkg-config \
+             libpq-dev
+
 RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libicu-dev \
         wget \
         git \
+        cron \
         mc \
-        sendmail \
             --no-install-recommends
-
-RUN apt-get install -q -y ssmtp mailutils
-
-RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf
-RUN echo "root=ivsevolod@yandex.ru" >> /etc/ssmtp/ssmtp.conf
-RUN echo "mailhub=maildev" >> /etc/ssmtp/ssmtp.conf
-
-RUN docker-php-ext-install mcrypt zip intl mbstring exif bcmath opcache \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd
-
-# Install Postgre PDO
-RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install Xdebug
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear
+
+RUN docker-php-ext-install mysqli \
+  && docker-php-ext-install pdo \
+  && docker-php-ext-install pdo_mysql \
+  && docker-php-ext-install intl \
+  && docker-php-ext-install zip \
+  && docker-php-ext-install exif \
+  && docker-php-ext-install opcache \
+  && docker-php-source delete
+
+RUN apt-get update && apt-get install -y \
+      libmagickwand-dev --no-install-recommends \
+      && pecl install imagick \
+  	&& docker-php-ext-enable imagick
+
 
 COPY ./www.conf /usr/local/etc/php/
 

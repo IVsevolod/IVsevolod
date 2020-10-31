@@ -1,58 +1,59 @@
 <?php
 /* @var $this yii\web\View */
 
+use common\models\Vkpost;
+use yii\db\Expression;
+
 $this->registerCssFile('pe-icon-social/css/pe-icon-social.css');
 $this->registerCssFile('pe-icon-social/css/helper.css');
 $this->registerCssFile('pe-icon-social/css/social-style.css');
 
 $this->title = 'IVsevolod';
+
+$vkPostStory = Vkpost::find()
+    ->where(['category' => 'story'])
+    ->andWhere(['not', ['text' => '']])
+    ->orderBy(new Expression('rand()'))
+    ->limit(1)
+    ->one();
+
+$vkPostHappy = Vkpost::find()
+    ->where(['category' => 'happy'])
+    ->andWhere(['not', ['text' => '']])
+    ->orderBy(new Expression('rand()'))
+    ->limit(1)
+    ->one();
+
+$vkPostHumor = Vkpost::find()
+    ->where(['category' => 'humor'])
+    ->andWhere(['not', ['text' => '']])
+    ->orderBy(new Expression('rand()'))
+    ->limit(1)
+    ->one();
+
 ?>
 <div class="site-index">
     <div class="col-md-6">
-        <h3>Привет, друзья!</h3>
-        <p>
-            Рад приветствовать вас на своем сайте.<br/>
-            Меня зовут Всеволод и я - Человек.<br/>
-            Я искренне люблю свою жену, семью, веб-разработку, танцы, море и горы.
-        </p>
+        <b><?= \yii\helpers\Html::a('История', ['library/story', 'id' => $vkPostStory->id], ['target' => '_blank']); ?></b>
+        <div class="well">
+            <?= $vkPostStory->text; ?>
+        </div>
 
-        <h3>Как связаться и где меня найти</h3>
-        <ul class="contacts">
-            <li>
-                <span class="pe-so-skype"></span> IVsevolod
-            </li>
-            <li>
-                <a href="https://ru.linkedin.com/in/ivsevolod">
-                    <span class="pe-so-linkedin"></span> Vsevolod Ivanov в LinkedIn
-                </a>
-            </li>
-            <li>
-                <a href="https://vk.com/id2107981">
-                    <span class="pe-so-vk"></span> Всеволод Иванов Вконтакте
-                </a>
-            </li>
-            <li>
-                <a href="https://www.facebook.com/IVsevolod">
-                    <span class="pe-so-facebook"></span> Vsevolod Ivanov на Facebook
-                </a>
-            </li>
-            <li>
-                <a href="https://github.com/IVsevolod">
-                    <span class="pe-so-github"></span> Vsevolod на Github
-                </a>
-            </li>
-        </ul>
+        <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
+        <div class="well">
+            <?= $vkPostHappy->text; ?>
+        </div>
+
+        <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
+        <div class="well">
+            <?= $vkPostHumor->text; ?>
+        </div>
 
         <h3>Мои группы, каналы и другое:</h3>
         <ul class="contacts">
             <li>
-                <a href="https://vk.com/my_home_happy">
-                    <span class="pe-so-vk"></span> Группа Вконтакте для Души
-                </a>
-            </li>
-            <li>
                 <a href="https://vk.com/prozouk">
-                    <span class="pe-so-vk"></span> Группа Вконтакте про танец Zouk
+                    <span class="pe-so-vk"></span> Группа Вконтакте ProZouk
                 </a>
             </li>
             <li>
@@ -64,11 +65,8 @@ $this->title = 'IVsevolod';
                 <a href="https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ">
                     <span class="pe-so-youtube-1"></span> Канал в Youtube про танец Zouk
                 </a>
-            </li>
             <li>
-                <a href="https://plus.google.com/+BrazilianzoukRuStyle">
-                    <span class="pe-so-google-plus"></span> GooglePlus про танец Zouk
-                </a>
+                Почта: <a href="mailto: ivsevolod@ivsevolod.ru">ivsevolod@ivsevolod.ru</a>
             </li>
         </ul>
     </div>
@@ -84,7 +82,9 @@ $this->title = 'IVsevolod';
                 <td>
                     <a href="http://battlesnake.ru/">battlesnake.ru</a> - <b>Битва змей.</b><br/>
                     <b>Дата создания:</b> 24.08.2013<br/>
-                    <b>Framework:</b> Yii
+                    <b>Развивал до:</b> 21.07.2016<br/>
+                    <b>Framework:</b> Yii<br/>
+                    В планах переписать, но это когда время будет...
                 </td>
             </tr>
             <tr>
@@ -94,8 +94,9 @@ $this->title = 'IVsevolod';
                     </a>
                 </td>
                 <td>
-                    <a href="http://tavanen.ru/">tavanen.ru</a> - <b>Газета.</b><br/>
+                    tavanen.ru - <b>Газета.</b><br/>
                     <b>Дата создания:</b> 02.07.2012<br/>
+                    <b>Поддерживал до:</b> 01.01.2020<br/>
                     <b>CMS:</b> WP
                 </td>
             </tr>
