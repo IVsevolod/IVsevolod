@@ -34,20 +34,26 @@ $vkPostHumor = Vkpost::find()
 ?>
 <div class="site-index">
     <div class="col-md-6">
-        <b><?= \yii\helpers\Html::a('История', ['library/story', 'id' => $vkPostStory->id], ['target' => '_blank']); ?></b>
-        <div class="well">
-            <?= $vkPostStory->text; ?>
-        </div>
+        <?php if ($vkPostStory) { ?>
+            <b><?= \yii\helpers\Html::a('История', ['library/story', 'id' => $vkPostStory->id], ['target' => '_blank']); ?></b>
+            <div class="well">
+                <?= $vkPostStory->text; ?>
+            </div>
+        <?php } ?>
 
-        <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
-        <div class="well">
-            <?= $vkPostHappy->text; ?>
-        </div>
+        <?php if ($vkPostHappy) { ?>
+            <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
+            <div class="well">
+                <?= $vkPostHappy->text; ?>
+            </div>
+        <?php } ?>
 
-        <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
-        <div class="well">
-            <?= $vkPostHumor->text; ?>
-        </div>
+        <?php if ($vkPostHumor) { ?>
+            <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
+            <div class="well">
+                <?= $vkPostHumor->text; ?>
+            </div>
+        <?php } ?>
 
         <h3>Мои группы, каналы и другое:</h3>
         <ul class="contacts">

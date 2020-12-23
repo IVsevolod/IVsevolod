@@ -49,6 +49,7 @@ $this->registerJs("var jsVar = " . json_encode($var) . ";", View::POS_HEAD);
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'Блог', 'url' => ['/lists/index']],
+        ['label' => 'Инструменты', 'url' => ['/tools/timestamp']],
         ['label' => 'Игры', 'url' => ['/game/index']],
         ['label' => 'Библиотека', 'url' => ['/library/index']],
     ];
