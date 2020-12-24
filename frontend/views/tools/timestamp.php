@@ -99,5 +99,8 @@ $dateUtc = new \DateTime("now", new \DateTimeZone("UTC"));
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <?= $this->render('_listTools', ['active' => 'timestamp']); ?>
+        </div>
     </div>
 </div>
