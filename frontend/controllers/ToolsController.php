@@ -17,10 +17,10 @@ class ToolsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['timestamp'],
+                'only'  => ['index', 'timestamp', 'base64'],
                 'rules' => [
                     [
-                        'actions' => ['timestamp'],
+                        'actions' => ['index', 'timestamp', 'base64'],
                         'allow'   => true,
                     ],
                 ],
@@ -65,6 +65,24 @@ class ToolsController extends Controller
 
         return $this->render('timestamp', [
             'timestampEnter' => $timestampEnter
+        ]);
+    }
+
+    public function actionBase64()
+    {
+        $request = \Yii::$app->request;
+        $type = $request->post('type', $request->get('type', 'fromBase64'));
+        $value = $request->post('inputText', $request->get('value', ''));
+        if ($type === 'toBase64') {
+            $result = base64_encode($value);
+        } else {
+            $result = base64_decode($value);
+        }
+
+        return $this->render('base64', [
+            'type'   => $type,
+            'value'  => $value,
+            'result' => $result,
         ]);
     }
 
