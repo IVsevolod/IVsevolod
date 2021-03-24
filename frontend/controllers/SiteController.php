@@ -276,7 +276,7 @@ class SiteController extends Controller
             $c = $request->post('triangleC', "");
 
             if ($c === "") {
-                throw new Exception('Неизвестная ошибка');
+                $result = 'Неизвестная ошибка';
             }
             if (empty($a) || empty($b) || empty($c)) {
                 $result = 'Сторона не должна быть нулевой';
