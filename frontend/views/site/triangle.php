@@ -47,6 +47,9 @@ $this->title = 'Площадь треугольника';
                     echo Html::tag('label', 'Результат');
                     echo Html::input('text', 'result', $result, ['class' => 'form-control']);
                     ?>
+                    <br/>
+                    Источник: <?= Html::a('Формула Герона — Википедия', 'https://translate.google.com/'); ?><br/>
+                    <?= Html::a('Помощь', ''); ?>
                 </div>
             </div>
         </div>
