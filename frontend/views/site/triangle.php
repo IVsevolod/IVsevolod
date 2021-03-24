@@ -35,7 +35,7 @@ $this->title = 'Площадь треугольника';
                     echo Html::input('number', 'triangleB', $b, ['class' => 'form-control', 'step' => 0.00001]);
 
                     echo Html::tag('label', 'Сторона треугольника a');
-                    echo Html::input('number', 'triangleC', $c, ['class' => 'form-control', 'step' => 0.00001]);
+                    echo Html::input('number', 'triangleC', $c, ['class' => 'form-control hidden-xs', 'step' => 0.00001]);
 
                     echo "<br/>";
 
