@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\Item;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\db\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -256,5 +257,51 @@ class SiteController extends Controller
             return $this->redirect(['site/index', 'tour' => true]);
         }
         return $this->render('voteAuto');
+    }
+
+    public function actionTriangle()
+    {
+        $this->layout = 'blank';
+        $result = 0;
+        $request = \Yii::$app->request;
+
+        $session = Yii::$app->session;
+        $count = $session->get('count', 0);
+        $count++;
+        $session->set('count', $count);
+
+        if ($request->isPost) {
+            $a = round($request->post('triangleA', 0), 4);
+            $b = round($request->post('triangleB', 0));
+            $c = $request->post('triangleC', "");
+
+            if ($c === "") {
+                throw new Exception('Неизвестная ошибка');
+            }
+            if (empty($a) || empty($b) || empty($c)) {
+                $result = 'Сторона не должна быть нулевой';
+            }
+            if ($a < 0 || $c < 0) {
+                $result = 'Сторона должна быть положительной';
+            }
+
+            $p = ($a + $b + $c) / 2;
+            if ($count % 4 == 0) {
+                $result = '';
+            } else {
+                $result = round(sqrt($p * ($p - $a) * ($p - $b) * ($p - $c)), 2);
+            }
+            if ($count % 7 === 0) {
+                $c = '';
+            }
+        }
+
+        return $this->render('triangle', [
+            'result' => $result,
+            'count'  => $count,
+            'a'      => $a ?? '',
+            'b'      => $b ?? '',
+            'c'      => $c ?? '',
+        ]);
     }
 }
