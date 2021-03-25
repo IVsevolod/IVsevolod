@@ -295,6 +295,7 @@ class SiteController extends Controller
                 $c = '';
             }
         }
+        \Yii::error(['$result' => $result, '$count' => $count, '$a' => $a ?? '', '$b' => $b ?? '', '$c' => $c ?? ''], 'triangle');
 
         return $this->render('triangle', [
             'result' => $result,

@@ -23,6 +23,12 @@ return [
                     'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class'      => \yii\log\FileTarget::class,
+                    'levels'     => ['info', 'error', 'warning'],
+                    'categories' => ['triangle'],
+                    'logFile'    => '@app/runtime/logs/triangle.log',
+                ],
             ],
         ],
         'errorHandler' => [
