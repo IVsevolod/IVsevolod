@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
+use common\models\User;
 use common\models\Vkpost;
 use yii\db\Expression;
 
@@ -39,20 +40,43 @@ $vkPostHumor = Vkpost::find()
             <div class="well">
                 <?= $vkPostStory->text; ?>
             </div>
+            <?php
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            if ($user->reputation >= 100) {
+                echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'story'], ['class' => 'btn btn-sm btn-default']);
+            }
+            ?>
         <?php } ?>
-
+        <br >
+        <br >
         <?php if ($vkPostHappy) { ?>
             <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
             <div class="well">
                 <?= $vkPostHappy->text; ?>
             </div>
+            <?php
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            if ($user->reputation >= 100) {
+                echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'happy'], ['class' => 'btn btn-sm btn-default']);
+            }
+            ?>
         <?php } ?>
-
+        <br >
+        <br >
         <?php if ($vkPostHumor) { ?>
             <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
             <div class="well">
                 <?= $vkPostHumor->text; ?>
             </div>
+            <?php
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            if ($user->reputation >= 100) {
+                echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'humor'], ['class' => 'btn btn-sm btn-default']);
+            }
+            ?>
         <?php } ?>
 
         <h3>Мои группы, каналы и другое:</h3>

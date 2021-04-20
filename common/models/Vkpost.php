@@ -37,6 +37,7 @@ class Vkpost extends ActiveRecord
     public function rules()
     {
         return [
+            [['text'], 'string'],
         ];
     }
 
@@ -45,7 +46,9 @@ class Vkpost extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return [];
+        return [
+            'text' => 'Текст',
+        ];
     }
 
 

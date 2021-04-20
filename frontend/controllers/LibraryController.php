@@ -24,7 +24,7 @@ class LibraryController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['add', 'edit', 'delete', 'addPage', 'editPage'],
+                'only'  => ['add', 'edit', 'delete', 'addPage', 'editPage', 'create'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -33,6 +33,33 @@ class LibraryController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionCreate($category)
+    {
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+        if ($user->reputation < 100) {
+            return Yii::$app->getResponse()->redirect(Url::home());
+        }
+        $vkpost = new Vkpost();
+        $vkpost->category=$category;
+        $request= Yii::$app->request;
+        if ($request->isPost) {
+            $vkpost->load($request->post());
+            $vkpost->post_id = 0;
+            $vkpost->from_id = 0;
+            $vkpost->owner_id = 0;
+            $vkpost->date = 1464949022;
+            $vkpost->post_type = 'post';
+            if (!empty($vkpost->text) && $vkpost->save()) {
+                return $this->redirect(["library/$category", 'id' => $vkpost->id]);
+            }
+
+        }
+        return $this->render('create', [
+            'vkpost' => $vkpost,
+        ]);
     }
 
     public function actionIndex($id = null, $sort = null)
