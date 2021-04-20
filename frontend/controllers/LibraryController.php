@@ -52,6 +52,7 @@ class LibraryController extends Controller
             $vkpost->owner_id = 0;
             $vkpost->date = 1464949022;
             $vkpost->post_type = 'post';
+            $vkpost->text = nl2br($vkpost->text);
             if (!empty($vkpost->text) && $vkpost->save()) {
                 return $this->redirect(["library/$category", 'id' => $vkpost->id]);
             }
