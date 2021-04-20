@@ -32,6 +32,8 @@ $vkPostHumor = Vkpost::find()
     ->limit(1)
     ->one();
 
+/** @var User $user */
+$user = Yii::$app->user->identity;
 ?>
 <div class="site-index">
     <div class="col-md-6">
@@ -41,9 +43,7 @@ $vkPostHumor = Vkpost::find()
                 <?= $vkPostStory->text; ?>
             </div>
             <?php
-            /** @var User $user */
-            $user = Yii::$app->user->identity;
-            if ($user->reputation >= 100) {
+            if (($user->reputation ?? 0) >= 100) {
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'story'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
@@ -56,9 +56,7 @@ $vkPostHumor = Vkpost::find()
                 <?= $vkPostHappy->text; ?>
             </div>
             <?php
-            /** @var User $user */
-            $user = Yii::$app->user->identity;
-            if ($user->reputation >= 100) {
+            if (($user->reputation ?? 0) >= 100) {
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'happy'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
@@ -71,9 +69,7 @@ $vkPostHumor = Vkpost::find()
                 <?= $vkPostHumor->text; ?>
             </div>
             <?php
-            /** @var User $user */
-            $user = Yii::$app->user->identity;
-            if ($user->reputation >= 100) {
+            if (($user->reputation ?? 0) >= 100) {
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'humor'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
