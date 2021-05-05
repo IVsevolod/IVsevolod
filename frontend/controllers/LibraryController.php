@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use Cassandra\Date;
 use common\models\Item;
 use common\models\ItemPage;
 use common\models\TagEntity;
@@ -50,7 +51,7 @@ class LibraryController extends Controller
             $vkpost->post_id = 0;
             $vkpost->from_id = 0;
             $vkpost->owner_id = 0;
-            $vkpost->date = 1464949022;
+            $vkpost->date = time();
             $vkpost->post_type = 'post';
             if (!empty($vkpost->text) && $vkpost->save()) {
                 return $this->redirect(["library/$category", 'id' => $vkpost->id]);
@@ -311,6 +312,16 @@ class LibraryController extends Controller
     {
         $vkPost = Vkpost::find()
             ->where(['category' => 'happy'])
+            ->andWhere(['not', ['text' => '']])
+            ->andWhere(['id' => $id])
+            ->limit(1)
+            ->one();
+        return $this->render('vkpost', ['vkPost' => $vkPost]);
+    }
+    public function actionPrediction($id)
+    {
+        $vkPost = Vkpost::find()
+            ->where(['category' => 'prediction'])
             ->andWhere(['not', ['text' => '']])
             ->andWhere(['id' => $id])
             ->limit(1)

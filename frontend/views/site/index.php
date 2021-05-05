@@ -32,14 +32,23 @@ $vkPostHumor = Vkpost::find()
     ->limit(1)
     ->one();
 
+$vkPostPrediction = Vkpost::find()
+    ->where(['category' => 'prediction'])
+    ->andWhere(['not', ['text' => '']])
+    ->orderBy(new Expression('rand()'))
+    ->limit(1)
+    ->one();
+
 ?>
 <div class="site-index">
     <div class="col-md-6">
-        <?php if ($vkPostStory) { ?>
-            <b><?= \yii\helpers\Html::a('История', ['library/story', 'id' => $vkPostStory->id], ['target' => '_blank']); ?></b>
-            <div class="well">
-                <?= $vkPostStory->text; ?>
-            </div>
+        <div class="margin-bottom">
+            <?php if ($vkPostStory) { ?>
+                <b><?= \yii\helpers\Html::a('История', ['library/story', 'id' => $vkPostStory->id], ['target' => '_blank']); ?></b>
+                <div class="well">
+                    <?= $vkPostStory->text; ?>
+                </div>
+            <?php } ?>
             <?php
             /** @var User $user */
             $user = Yii::$app->user->identity;
@@ -47,14 +56,14 @@ $vkPostHumor = Vkpost::find()
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'story'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
-        <?php } ?>
-        <br >
-        <br >
-        <?php if ($vkPostHappy) { ?>
-            <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
-            <div class="well">
-                <?= $vkPostHappy->text; ?>
-            </div>
+        </div>
+        <div class="margin-bottom">
+            <?php if ($vkPostHappy) { ?>
+                <b><?= \yii\helpers\Html::a('Мысли', ['library/happy', 'id' => $vkPostHappy->id], ['target' => '_blank']); ?></b>
+                <div class="well">
+                    <?= $vkPostHappy->text; ?>
+                </div>
+            <?php } ?>
             <?php
             /** @var User $user */
             $user = Yii::$app->user->identity;
@@ -62,14 +71,14 @@ $vkPostHumor = Vkpost::find()
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'happy'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
-        <?php } ?>
-        <br >
-        <br >
-        <?php if ($vkPostHumor) { ?>
-            <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
-            <div class="well">
-                <?= $vkPostHumor->text; ?>
-            </div>
+        </div>
+        <div class="margin-bottom">
+            <?php if ($vkPostHumor) { ?>
+                <b>Немного <?= \yii\helpers\Html::a('юмора', ['library/humor', 'id' => $vkPostHumor->id], ['target' => '_blank']); ?></b>
+                <div class="well">
+                    <?= $vkPostHumor->text; ?>
+                </div>
+            <?php } ?>
             <?php
             /** @var User $user */
             $user = Yii::$app->user->identity;
@@ -77,7 +86,22 @@ $vkPostHumor = Vkpost::find()
                 echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'humor'], ['class' => 'btn btn-sm btn-default']);
             }
             ?>
-        <?php } ?>
+        </div>
+        <div class="margin-bottom">
+            <?php if ($vkPostPrediction) { ?>
+                <b>Немного <?= \yii\helpers\Html::a('предсказаний', ['library/prediction', 'id' => $vkPostPrediction->id], ['target' => '_blank']); ?></b>
+                <div class="well">
+                    <?= $vkPostPrediction->text; ?>
+                </div>
+            <?php } ?>
+            <?php
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            if ($user->reputation >= 100) {
+                echo \yii\helpers\Html::a('Добавить', ['library/create', 'category' => 'prediction'], ['class' => 'btn btn-sm btn-default']);
+            }
+            ?>
+        </div>
 
         <h3>Мои группы, каналы и другое:</h3>
         <ul class="contacts">
