@@ -13,9 +13,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
-// tinymce
-$this->registerJsFile('//cdn.tinymce.com/4/tinymce.min.js');
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/tinymcLang/ru-RU.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+\frontend\assets\ClEditorAsset::register($this);
 // Tags
 $this->registerJsFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
