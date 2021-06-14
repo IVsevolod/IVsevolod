@@ -29,7 +29,7 @@ class BullsAndCowsController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                 ],
             ],
