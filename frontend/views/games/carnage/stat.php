@@ -20,6 +20,24 @@
 
 <?php
 if ($carnageUser) {
+    $ca = $carnageUser->count_attacks;
+    $a1 = $carnageUser->a1 ?: 0;
+    $a2 = $carnageUser->a2 ?: 0;
+    $a3 = $carnageUser->a3 ?: 0;
+    $a4 = $carnageUser->a4 ?: 0;
+    $b1 = $carnageUser->b1 ?: 0;
+    $b2 = $carnageUser->b2 ?: 0;
+    $b3 = $carnageUser->b3 ?: 0;
+    $b4 = $carnageUser->b4 ?: 0;
+    $mca = $carnageUser->mcount_attacks + $ca;
+    $ma1 = $carnageUser->ma1 + $a1;
+    $ma2 = $carnageUser->ma2 + $a2;
+    $ma3 = $carnageUser->ma3 + $a3;
+    $ma4 = $carnageUser->ma4 + $a4;
+    $mb1 = $carnageUser->mb1 + $b1;
+    $mb2 = $carnageUser->mb2 + $b2;
+    $mb3 = $carnageUser->mb3 + $b3;
+    $mb4 = $carnageUser->mb4 + $b4;
     ?>
     <div>
         <h4>Персонаж <b><?= $carnageUser->username; ?></b></h4>
@@ -32,31 +50,55 @@ if ($carnageUser) {
             </tr>
             <tr>
                 <td>Голова</td>
-                <td><?= $carnageUser->a1; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->a1 / $carnageUser->count_attacks : 0, 2); ?>%</td>
-                <td><?= $carnageUser->b1; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->b1 / $carnageUser->count_attacks : 0, 2); ?>%</td>
+                <td><?= $a1; ?> (<?= $ma1; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $a1 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $ma1 / $mca : 0, 2); ?>%)
+                </td>
+                <td><?= $b1; ?> (<?= $mb1; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $b1 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $mb1 / $mca : 0, 2); ?>%)
+                </td>
             </tr>
             <tr>
                 <td>Корпус</td>
-                <td><?= $carnageUser->a2; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->a2 / $carnageUser->count_attacks : 0, 2); ?>%</td>
-                <td><?= $carnageUser->b2; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->b2 / $carnageUser->count_attacks : 0, 2); ?>%</td>
+                <td><?= $a2; ?> (<?= $ma2; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $a2 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $ma2 / $mca : 0, 2); ?>%)
+                </td>
+                <td><?= $b2; ?> (<?= $mb2; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $b2 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $mb2 / $mca : 0, 2); ?>%)
+                </td>
             </tr>
             <tr>
                 <td>Пояс</td>
-                <td><?= $carnageUser->a3; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->a3 / $carnageUser->count_attacks : 0, 2); ?>%</td>
-                <td><?= $carnageUser->b3; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->b3 / $carnageUser->count_attacks : 0, 2); ?>%</td>
+                <td><?= $a3; ?> (<?= $ma3; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $a3 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $ma3 / $mca : 0, 2); ?>%)
+                </td>
+                <td><?= $b3; ?> (<?= $mb3; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $b3 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $mb3 / $mca : 0, 2); ?>%)
+                </td>
             </tr>
             <tr>
                 <td>Ноги</td>
-                <td><?= $carnageUser->a4; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->a4 / $carnageUser->count_attacks : 0, 2); ?>%</td>
-                <td><?= $carnageUser->b4; ?></td>
-                <td><?= round($carnageUser->count_attacks > 0 ? 100 * $carnageUser->b4 / $carnageUser->count_attacks : 0, 2); ?>%</td>
+                <td><?= $a4; ?> (<?= $ma4; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $a4 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $ma4 / $mca : 0, 2); ?>%)
+                </td>
+                <td><?= $b4; ?> (<?= $mb4; ?>)</td>
+                <td>
+                    <?= round($ca > 0 ? 100 * $b4 / $ca : 0, 2); ?>%
+                    (<?= round($mca > 0 ? 100 * $mb4 / $mca : 0, 2); ?>%)
+                </td>
             </tr>
         </table>
     </div>

@@ -22,6 +22,9 @@ class m210614_140649_create_carnage_log_table extends Migration
             'url'         => $this->string(128),
             'city'        => $this->string(24),
             'log_id'      => $this->bigInteger(),
+            'status'      => $this->string(24),
+            'type'        => $this->string(32),
+            'start_date'  => $this->integer(),
             'date_update' => $this->integer(),
             'date_create' => $this->integer(),
         ], $tableOptions);

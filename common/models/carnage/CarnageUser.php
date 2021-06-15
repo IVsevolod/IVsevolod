@@ -19,6 +19,15 @@ use yii\db\ActiveRecord;
  * @property int    $b3
  * @property int    $b4
  * @property int    $count_attacks
+ * @property int    $ma1
+ * @property int    $ma2
+ * @property int    $ma3
+ * @property int    $ma4
+ * @property int    $mb1
+ * @property int    $mb2
+ * @property int    $mb3
+ * @property int    $mb4
+ * @property int    $mcount_attacks
  * @property int    $count_fights
  * @property int    $date_update
  * @property int    $date_create
@@ -56,7 +65,32 @@ class CarnageUser extends ActiveRecord
     public function rules()
     {
         return [
-            [['date_update', 'date_create', 'a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'count_attacks', 'count_fights'], 'integer'],
+            [
+                [
+                    'date_update',
+                    'date_create',
+                    'a1',
+                    'a2',
+                    'a3',
+                    'a4',
+                    'b1',
+                    'b2',
+                    'b3',
+                    'b4',
+                    'count_attacks',
+                    'ma1',
+                    'ma2',
+                    'ma3',
+                    'ma4',
+                    'mb1',
+                    'mb2',
+                    'mb3',
+                    'mb4',
+                    'mcount_attacks',
+                    'count_fights',
+                ],
+                'integer',
+            ],
             [['username'], 'string'],
         ];
     }
@@ -68,20 +102,29 @@ class CarnageUser extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => 'ID',
-            'username'      => 'Имя персонажа',
-            'a1'            => 'Атака по голове',
-            'a2'            => 'Атака по корпусу',
-            'a3'            => 'Атака по поясу',
-            'a4'            => 'Атака по ногам',
-            'b1'            => 'Блок головы',
-            'b2'            => 'Блок корпуса',
-            'b3'            => 'Блок пояса',
-            'b4'            => 'Блок ног',
-            'count_attacks' => 'Количество атак',
-            'count_fights'  => 'Количество боёв',
-            'date_update'   => 'Date Update',
-            'date_create'   => 'Date Create',
+            'id'             => 'ID',
+            'username'       => 'Имя персонажа',
+            'a1'             => 'Атака по голове',
+            'a2'             => 'Атака по корпусу',
+            'a3'             => 'Атака по поясу',
+            'a4'             => 'Атака по ногам',
+            'b1'             => 'Блок головы',
+            'b2'             => 'Блок корпуса',
+            'b3'             => 'Блок пояса',
+            'b4'             => 'Блок ног',
+            'count_attacks'  => 'Количество атак',
+            'ma1'            => 'Атака по голове',
+            'ma2'            => 'Атака по корпусу',
+            'ma3'            => 'Атака по поясу',
+            'ma4'            => 'Атака по ногам',
+            'mb1'            => 'Блок головы',
+            'mb2'            => 'Блок корпуса',
+            'mb3'            => 'Блок пояса',
+            'mb4'            => 'Блок ног',
+            'mcount_attacks' => 'Количество атак',
+            'count_fights'   => 'Количество боёв',
+            'date_update'    => 'Date Update',
+            'date_create'    => 'Date Create',
         ];
     }
 }

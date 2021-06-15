@@ -14,11 +14,17 @@ use yii\db\ActiveRecord;
  * @property string $url
  * @property string $city
  * @property int    $log_id
+ * @property string $status
+ * @property string $type
+ * @property int    $start_date
  * @property int    $date_update
  * @property int    $date_create
  */
 class CarnageLog extends ActiveRecord
 {
+
+    const STATUS_DONE = 'done';
+
     /**
      * @inheritdoc
      */
@@ -49,8 +55,9 @@ class CarnageLog extends ActiveRecord
     public function rules()
     {
         return [
-            [['date_update', 'date_create', 'log_id'], 'integer'],
-            [['url', 'city'], 'string'],
+            [['date_update', 'date_create', 'log_id', 'start_date'], 'integer'],
+            [['url', 'city', 'status', 'type'], 'string'],
+            [['status'], 'default', 'value' => CarnageLog::STATUS_DONE],
         ];
     }
 
@@ -65,6 +72,9 @@ class CarnageLog extends ActiveRecord
             'url'         => 'Ссылка на лог',
             'city'        => 'Город лога',
             'log_id'      => 'Id лога',
+            'status'      => 'Статус лога',
+            'type'        => 'Тип боя',
+            'start_date'  => 'Дата боя',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
@@ -128,6 +138,23 @@ class CarnageLog extends ActiveRecord
         foreach ($attackTrStat as $trStat) {
             $trCount++;
             if ($trCount === 1) {
+                $startDateInfo = explode('Начало боя: ', $trStat);
+                $typeFightInfo = explode('Тип боя: ', $startDateInfo[0]);
+                // Начало боя
+                $startDateInfo = $startDateInfo[1] ?? '';
+                preg_match('!<b>(.*?)</b><br />!si', $startDateInfo, $startDateFight);
+                $startDateFight = $startDateFight[1] ?? '';
+                if (!empty($startDateFight)) {
+                    $carnageLog->start_date = strtotime($startDateFight);
+                }
+                // Тип боя
+                $typeFightInfo = $typeFightInfo[1] ?? '';
+                preg_match('!<b>(.*?)</b>!si', $typeFightInfo, $typeFight);
+                $typeFight = $typeFight[1] ?? '';
+                if (!empty($typeFight)) {
+                    $carnageLog->type = $typeFight;
+                }
+
                 continue;
             }
             preg_match('!u\(\'(.*?)\'!si', $trStat, $arr);
@@ -217,15 +244,27 @@ class CarnageLog extends ActiveRecord
                 $carnageUser = new CarnageUser();
                 $carnageUser->username = $username;
             }
-            $carnageUser->a1 += $userStat['a1'] ?? 0;
-            $carnageUser->a2 += $userStat['a2'] ?? 0;
-            $carnageUser->a3 += $userStat['a3'] ?? 0;
-            $carnageUser->a4 += $userStat['a4'] ?? 0;
-            $carnageUser->b1 += $userStat['b1'] ?? 0;
-            $carnageUser->b2 += $userStat['b2'] ?? 0;
-            $carnageUser->b3 += $userStat['b3'] ?? 0;
-            $carnageUser->b4 += $userStat['b4'] ?? 0;
-            $carnageUser->count_attacks += $userStat['countAttack'] ?? 0;
+            if (mb_strpos($carnageLog->type, 'Бой с монстром') !== false) {
+                $carnageUser->ma1 += $userStat['a1'] ?? 0;
+                $carnageUser->ma2 += $userStat['a2'] ?? 0;
+                $carnageUser->ma3 += $userStat['a3'] ?? 0;
+                $carnageUser->ma4 += $userStat['a4'] ?? 0;
+                $carnageUser->mb1 += $userStat['b1'] ?? 0;
+                $carnageUser->mb2 += $userStat['b2'] ?? 0;
+                $carnageUser->mb3 += $userStat['b3'] ?? 0;
+                $carnageUser->mb4 += $userStat['b4'] ?? 0;
+                $carnageUser->mcount_attacks += $userStat['countAttack'] ?? 0;
+            } else {
+                $carnageUser->a1 += $userStat['a1'] ?? 0;
+                $carnageUser->a2 += $userStat['a2'] ?? 0;
+                $carnageUser->a3 += $userStat['a3'] ?? 0;
+                $carnageUser->a4 += $userStat['a4'] ?? 0;
+                $carnageUser->b1 += $userStat['b1'] ?? 0;
+                $carnageUser->b2 += $userStat['b2'] ?? 0;
+                $carnageUser->b3 += $userStat['b3'] ?? 0;
+                $carnageUser->b4 += $userStat['b4'] ?? 0;
+                $carnageUser->count_attacks += $userStat['countAttack'] ?? 0;
+            }
             $carnageUser->count_fights += 1;
             if ($carnageUser->save()) {
                 $countSaveUsers++;
