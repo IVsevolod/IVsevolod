@@ -20,7 +20,7 @@ class CarnageController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['index', 'stat'],
+                'only'  => ['index', 'stat', 'load-logs'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -49,9 +49,42 @@ class CarnageController extends Controller
                     return $this->redirect('index');
                 }
             }
+            $listLogText = $request->post('listUrl', null);
+            if (!empty($listLogText)) {
+                $urls = CarnageLog::parseUrls($listLogText, $request->post('city', 'lutecia'));
+                $countTrue = 0;
+                foreach ($urls as $url) {
+                    if (CarnageLog::addLogStatusDraft($url)) {
+                        $countTrue++;
+                    }
+                }
+                \Yii::$app->session->addFlash('success', "Успешно добавлено в обработку $countTrue");
+                return $this->redirect('index');
+            }
         }
 
         return $this->render('index');
+    }
+
+    public function actionLoadLogs()
+    {
+        $carnageLogs = CarnageLog::find()->andWhere(['status' => CarnageLog::STATUS_NEW])->limit(10)->all();
+        $countTrue = 0;
+        $countFalse = 0;
+        foreach ($carnageLogs as $carnageLog) {
+            if (CarnageLog::loadLog($carnageLog, false)) {
+                $countTrue++;
+            } else {
+                $countFalse++;
+            }
+        }
+        if ($countFalse > 0) {
+            \Yii::$app->session->addFlash('success', "Успешно обработано $countTrue; вышло ошибок $countFalse;");
+        } else {
+            \Yii::$app->session->addFlash('success', "Успешно обработано $countTrue");
+        }
+
+        return $this->render('loadLogs');
     }
 
     public function actionStat($username = '')

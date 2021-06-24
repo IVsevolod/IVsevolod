@@ -17,3 +17,7 @@ use yii\helpers\Html;
 <div>
     <?= $this->render('_formFindUser'); ?>
 </div>
+
+<div>
+    <?= $this->render('_formAddListLog'); ?>
+</div>

@@ -2,7 +2,6 @@
 
 namespace common\models\carnage;
 
-use common\components\SimpleHtmlDom;
 use yii\base\BaseObject;
 use yii\db\ActiveRecord;
 
@@ -24,6 +23,7 @@ class CarnageLog extends ActiveRecord
 {
 
     const STATUS_DONE = 'done';
+    const STATUS_NEW = 'new';
 
     /**
      * @inheritdoc
@@ -101,16 +101,28 @@ class CarnageLog extends ActiveRecord
         return ['city' => $city, 'log_id' => $id];
     }
 
-    public static function loadLog($url)
+    public static function parseUrls($text, $city)
+    {
+        preg_match_all('!/log.pl\?id=(.*?)"!si', $text, $idLogs);
+        $urls = [];
+        foreach ($idLogs[1] ?? [] as $idLogItem) {
+            $id = intval($idLogItem);
+            if (!empty($id)) {
+                $url = "http://{$city}.carnage.ru/log.pl?id=$id";
+                $urls[] = $url;
+            }
+        }
+        return $urls;
+    }
+
+    public static function addLogStatusDraft($url)
     {
         $logInfo = self::validateLogUrl($url);
         if ($logInfo === false) {
-            \Yii::$app->session->addFlash('error', 'Некорректная ссылка лога');
             return false;
         }
         $carnageLog = CarnageLog::find()->andWhere(['city' => $logInfo['city'], 'log_id' => $logInfo['log_id']])->one();
         if ($carnageLog) {
-            \Yii::$app->session->addFlash('error', 'Лог уже загружен');
             return false;
         }
 
@@ -120,12 +132,48 @@ class CarnageLog extends ActiveRecord
         $carnageLog->city = $logInfo['city'];
         $carnageLog->log_id = intval($logInfo['log_id']);
         $carnageLog->url = $urlStats;
+        $carnageLog->status = CarnageLog::STATUS_NEW;
+        $carnageLog->save();
+
+        return $carnageLog->save();
+    }
+
+    public static function loadLog($url, $addFlash = true)
+    {
+        if ($url instanceof CarnageLog) {
+            $carnageLog = $url;
+            $urlStats = $carnageLog->url;
+        } else {
+            $logInfo = self::validateLogUrl($url);
+            if ($logInfo === false) {
+                if ($addFlash) {
+                    \Yii::$app->session->addFlash('error', 'Некорректная ссылка лога');
+                }
+                return false;
+            }
+            $carnageLog = CarnageLog::find()->andWhere(['city' => $logInfo['city'], 'log_id' => $logInfo['log_id']])->one();
+            if ($carnageLog) {
+                if ($addFlash) {
+                    \Yii::$app->session->addFlash('error', 'Лог уже загружен');
+                }
+                return false;
+            }
+
+            $urlStats = "http://{$logInfo['city']}.carnage.ru/log.pl?cmd=stats&id={$logInfo['log_id']}";
+
+            $carnageLog = new CarnageLog();
+            $carnageLog->city = $logInfo['city'];
+            $carnageLog->log_id = intval($logInfo['log_id']);
+            $carnageLog->url = $urlStats;
+        }
 
         $htmlFight = file_get_contents($urlStats);
         $htmlFight = iconv('cp1251', 'utf-8', $htmlFight);
         $blockHtmlFight = explode('Статистика блоков', $htmlFight);
         if (count($blockHtmlFight) < 2) {
-            \Yii::$app->session->addFlash('error', 'Произошла ошибка в чтении лога. Попробуйте позже');
+            if ($addFlash) {
+                \Yii::$app->session->addFlash('error', 'Произошла ошибка в чтении лога. Попробуйте позже');
+            }
             return false;
         }
 
@@ -272,6 +320,7 @@ class CarnageLog extends ActiveRecord
         }
         $resultSave = false;
         if ($countSaveUsers > 0) {
+            $carnageLog->status = CarnageLog::STATUS_DONE;
             $resultSave = $carnageLog->save();
         }
         if ($resultSave) {
