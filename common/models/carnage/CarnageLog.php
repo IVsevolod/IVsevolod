@@ -2,7 +2,6 @@
 
 namespace common\models\carnage;
 
-use yii\base\BaseObject;
 use yii\db\ActiveRecord;
 
 /**
