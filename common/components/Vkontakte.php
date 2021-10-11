@@ -13,7 +13,7 @@ use yii\base\Component;
 class Vkontakte extends Component
 {
 
-    const VERSION = '5.73';
+    const VERSION = '5.131';
 
     /**
      * The application ID
