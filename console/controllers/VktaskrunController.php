@@ -74,12 +74,12 @@ class VktaskrunController extends Controller
     {
         $group_id = '2411559';
 
-        $html = SimpleHtmlDom::file_get_html('http://gov.cap.ru/Info.aspx?type=news');
-        $items = $html->find('div.ListItem a.LI_Caption');
+        $html = SimpleHtmlDom::file_get_html('https://cap.ru/news?type=news');
+        $items = $html->find('div.item_news a.news-list_title');
         $urls = [];
         foreach ($items as $item) {
             $url = $item->href;
-            $url = 'http://gov.cap.ru/print.aspx' . substr($url, strpos($url, '?'));
+            $url = 'https://cap.ru/' . substr($url, strpos($url, '?'));
             $url = str_replace('&amp;', '&', $url);
             $urls[] = $url;
         }
@@ -112,11 +112,11 @@ class VktaskrunController extends Controller
             if (!in_array($url, $existUrl[$group_id] ?? [])) {
                 $i++;
                 $htmlNews = SimpleHtmlDom::file_get_html($url);
-                $titleElement = $htmlNews->find('#PrintTitle');
+                $titleElement = $htmlNews->find('div.news_item_title h1');
                 $titleElement = reset($titleElement);
                 $title = $titleElement->plaintext;
                 $title = strip_tags($title);
-                $textElements = $htmlNews->find('#PrintText p');
+                $textElements = $htmlNews->find('div.news_text p');
                 array_shift($textElements);
                 array_pop($textElements);
                 $text = "";
@@ -127,24 +127,15 @@ class VktaskrunController extends Controller
                         $text .= "<br><br>" . $newP;
                     }
                 }
-                if (mb_strpos($text, 'Чебоксар') === false) {
-                    $newsAdded = new ParseNewsAdded();
-                    $newsAdded->group_id = $group_id;
-                    $newsAdded->src = $url;
-                    $newsAdded->save();
-
-                    continue;
-                }
 
                 if ($datestart < time()) {
                     $datestart = strtotime('+7 min', time());
                 }
 
-                $imgElements = $htmlNews->find('#PrintText img');
+                $imgElements = $htmlNews->find('div.news_text img');
                 $attachments = [];
                 foreach ($imgElements ?? [] as $imgElement) {
                     $src = $imgElement->src;
-                    $src = str_replace('../', 'http://gov.cap.ru/', $src);
                     $attachments[] = [
                         'type'  => 'photo',
                         'photo' => [
