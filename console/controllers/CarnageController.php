@@ -51,15 +51,15 @@ class CarnageController extends Controller
 
                 $alignTags = $rowTr->find('img.align');
                 $alignTag = reset($alignTags);
-                $align = $alignTag ? $alignTag->src : '';
+                $align = $alignTag ? CarnageUser::transformUrl('align', $alignTag->src) : '';
 
                 $clanImgTags = $rowTr->find('img.clan');
                 $clanImgTag = reset($clanImgTags);
-                $clanImg = $clanImgTag ? $clanImgTag->src : '';
+                $clanImg = $clanImgTag ? CarnageUser::transformUrl('clan', $clanImgTag->src) : '';
 
                 $guildImgTags = $rowTr->find('img.guild');
                 $guildImgTag = reset($guildImgTags);
-                $guildImg = $guildImgTag ? $guildImgTag->src : '';
+                $guildImg = $guildImgTag ? CarnageUser::transformUrl('guild', $guildImgTag->src) : '';
 
                 $placeTags = $rowTr->find('td.num');
                 $placeTag = reset($placeTags);

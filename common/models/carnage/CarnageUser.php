@@ -169,4 +169,39 @@ class CarnageUser extends ActiveRecord
 
         return $_usersByUsername[$username] ?? null;
     }
+
+    public static function transformUrl($type, $src)
+    {
+        $path = '/app/frontend/web/img/carnage';
+        $url = '/img/carnage';
+        $newSrc = $src;
+        switch ($type) {
+            case 'align':
+                $imgName = str_replace('http://img.carnage.ru/i/', '', $newSrc);
+                $url .= '/align';
+                $path .= '/align';
+                break;
+            case 'clan':
+                $imgName = str_replace('http://img.carnage.ru/i/klan/', '', $newSrc);
+                $url .= '/clan';
+                $path .= '/clan';
+                break;
+            case 'guild':
+                $imgName = str_replace('http://img.carnage.ru/i/guild/', '', $newSrc);
+                $url .= '/guild';
+                $path .= '/guild';
+                break;
+        }
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $fullName = $path . '/' . $imgName;
+        $url = $url . '/' . $imgName;
+        if (!file_exists($fullName)) {
+            file_put_contents($fullName, file_get_contents($src));
+        }
+
+        return $url;
+    }
 }
