@@ -24,7 +24,7 @@ class CarnageController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view'],
+                'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view', 'rating-init'],
                 'rules' => [
                     [
                         'actions' => ['rating-list', 'rating-index', 'rating-view'],
@@ -104,6 +104,46 @@ class CarnageController extends Controller
         }
 
         return $this->render('stat', ['carnageUser' => $carnageUser]);
+    }
+
+
+    public function actionRatingInit()
+    {
+        $ratings = CarnageRating::find()->indexBy('type')->all();
+        if (!isset($ratings['fame_today'])) {
+            $newCarnageRating = new CarnageRating([
+                'title' => 'Доблесть',
+                'type'  => 'fame_today',
+                'url'   => 'http://top.carnage.ru/daily_rating/fame/today/',
+            ]);
+            $newCarnageRating->save();
+        }
+        if (!isset($ratings['fame_series_today'])) {
+            $newCarnageRating = new CarnageRating([
+                'title' => 'Увеличения победной серии',
+                'type'  => 'fame_series_today',
+                'url'   => 'http://top.carnage.ru/daily_rating/fame_series/today/',
+            ]);
+            $newCarnageRating->save();
+        }
+        if (!isset($ratings['base_expa_today'])) {
+            $newCarnageRating = new CarnageRating([
+                'title' => 'Базовый опыт',
+                'type'  => 'base_expa_today',
+                'url'   => 'http://top.carnage.ru/daily_rating/base_expa/today/',
+            ]);
+            $newCarnageRating->save();
+        }
+        if (!isset($ratings['karma_today'])) {
+            $newCarnageRating = new CarnageRating([
+                'title' => 'Изменение кармы',
+                'type'  => 'karma_today',
+                'url'   => 'http://top.carnage.ru/daily_rating/karma/today/',
+            ]);
+            $newCarnageRating->save();
+        }
+
+        return $this->redirect(['games/carnage/rating-list']);
     }
 
     /**
