@@ -19,7 +19,10 @@ class m210614_140702_create_carnage_user_table extends Migration
 
         $this->createTable('{{%carnage_user}}', [
             'id'             => $this->primaryKey(),
-            'username'       => $this->string(64),
+            'username'       => $this->string(),
+            'clan_img'       => $this->string(),
+            'guild_img'      => $this->string(),
+            'align_img'      => $this->string(),
             'a1'             => $this->integer(),
             'a2'             => $this->integer(),
             'a3'             => $this->integer(),

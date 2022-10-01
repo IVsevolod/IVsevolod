@@ -117,8 +117,6 @@ class VktaskrunController extends Controller
                 $title = $titleElement->plaintext;
                 $title = strip_tags($title);
                 $textElements = $htmlNews->find('div.news_text p');
-                array_shift($textElements);
-                array_pop($textElements);
                 $text = "";
                 foreach ($textElements as $textElement) {
                     $newP = $textElement->plaintext;
@@ -127,12 +125,13 @@ class VktaskrunController extends Controller
                         $text .= "<br><br>" . $newP;
                     }
                 }
+                $text .= "<br><br>" . $url;
 
                 if ($datestart < time()) {
-                    $datestart = strtotime('+7 min', time());
+                    $datestart = strtotime('+37 min', time());
                 }
 
-                $imgElements = $htmlNews->find('div.news_text img');
+                $imgElements = $htmlNews->find('div.page_news img');
                 $attachments = [];
                 foreach ($imgElements ?? [] as $imgElement) {
                     $src = $imgElement->src;

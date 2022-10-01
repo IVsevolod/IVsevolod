@@ -2,6 +2,7 @@
 
 namespace common\models\carnage;
 
+use common\models\User;
 use yii\db\ActiveRecord;
 
 /**
@@ -10,6 +11,9 @@ use yii\db\ActiveRecord;
  *
  * @property int    $id
  * @property string $username
+ * @property string $align_img
+ * @property string $clan_img
+ * @property string $guild_img
  * @property int    $a1
  * @property int    $a2
  * @property int    $a3
@@ -91,7 +95,14 @@ class CarnageUser extends ActiveRecord
                 ],
                 'integer',
             ],
-            [['username'], 'string'],
+            [
+                [
+                    'a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'ma1', 'ma2', 'ma3', 'ma4', 'mb1', 'mb2', 'mb3', 'mb4',
+                    'count_attacks', 'mcount_attacks', 'count_fights'
+                ], 'default', 'value' => 0
+            ],
+            [['username', 'clan_img', 'align_img', 'guild_img'], 'string'],
+            [['clan_img', 'align_img', 'guild_img'], 'default', 'value' => ''],
         ];
     }
 
@@ -104,6 +115,9 @@ class CarnageUser extends ActiveRecord
         return [
             'id'             => 'ID',
             'username'       => 'Имя персонажа',
+            'clan_img'       => 'Изображение клана',
+            'align_img'      => 'Изображение склонности',
+            'guild_img'      => 'Изображение гильдии',
             'a1'             => 'Атака по голове',
             'a2'             => 'Атака по корпусу',
             'a3'             => 'Атака по поясу',
@@ -126,5 +140,33 @@ class CarnageUser extends ActiveRecord
             'date_update'    => 'Date Update',
             'date_create'    => 'Date Create',
         ];
+    }
+
+    /**
+     * @param string $username
+     * @param array  $params
+     *
+     * @return CarnageUser
+     */
+    public static function getOrCreateUser(string $username, $params = [])
+    {
+        static $_usersByUsername = [];
+        if (!isset($_usersByUsername[$username])) {
+            $carnageUser = CarnageUser::find()->andWhere(['username' => $username])->one();
+            if (empty($carnageUser) && !empty($username)) {
+                $carnageUser = new CarnageUser([
+                    'username'  => $username,
+                    'align_img' => $params['align_img'] ?? '',
+                    'clan_img'  => $params['clan_img'] ?? '',
+                    'guild_img' => $params['guild_img'] ?? '',
+                ]);
+                if (!$carnageUser->save()) {
+                    $carnageUser = null;
+                }
+            }
+            $_usersByUsername[$username] = $carnageUser;
+        }
+
+        return $_usersByUsername[$username] ?? null;
     }
 }

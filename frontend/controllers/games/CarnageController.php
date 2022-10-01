@@ -4,7 +4,11 @@ namespace frontend\controllers\games;
 
 
 use common\models\carnage\CarnageLog;
+use common\models\carnage\CarnageRating;
+use common\models\carnage\CarnageRatingValue;
 use common\models\carnage\CarnageUser;
+use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -20,8 +24,13 @@ class CarnageController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['index', 'stat', 'load-logs'],
+                'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view'],
                 'rules' => [
+                    [
+                        'actions' => ['rating-list', 'rating-index', 'rating-view'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
                     [
                         'allow' => true,
                         'roles' => ['@'],
@@ -95,6 +104,99 @@ class CarnageController extends Controller
         }
 
         return $this->render('stat', ['carnageUser' => $carnageUser]);
+    }
+
+    /**
+     * Список всех рейтингов
+     * @return string
+     */
+    public function actionRatingList()
+    {
+        $query = CarnageRating::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('rating/list', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Список конкретного рейтинга
+     * @param $id
+     *
+     * @return string
+     */
+    public function actionRatingIndex($id)
+    {
+        $carnageRating = CarnageRating::find()->andWhere(['id' => $id])->one();
+        $query = CarnageRatingValue::find()
+            ->andWhere(['carnage_rating_id' => $carnageRating->id ?? null])
+            ->leftJoin(['cu' => CarnageUser::tableName()], "cu.id=carnage_user_id")
+            ->groupBy(['carnage_user_id'])
+            ->select([
+                'nik'               => 'cu.username',
+                'clanImg'           => 'cu.clan_img',
+                'alignImg'          => 'cu.align_img',
+                'guildImg'          => 'cu.guild_img',
+                'value'             => new Expression("CAST(SUBSTRING_INDEX(GROUP_CONCAT(value ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as DECIMAL)"),
+                'place'             => new Expression("CAST(SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as SIGNED)"),
+                'date_update'       => 'max(carnage_rating_value.date_update)',
+                'carnage_rating_id' => 'carnage_rating_value.carnage_rating_id',
+                'carnage_user_id'   => 'carnage_rating_value.carnage_user_id',
+            ])
+        ;
+
+        $searchModel = new CarnageRatingValue();
+        $request = \Yii::$app->request;
+        $searchModel->load($request->get());
+
+        $query->andFilterWhere(['place' => $searchModel->place]);
+        $query->andFilterWhere(['like', 'value', $searchModel->value]);
+        $query->andFilterWhere(['like', 'cu.username', $searchModel->nik]);
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'place' => SORT_ASC,
+                ]
+            ],
+        ]);
+
+        return $this->render('rating/index', [
+            'dataProvider'  => $dataProvider,
+            'carnageRating' => $carnageRating,
+            'searchModel'   => $searchModel,
+        ]);
+    }
+
+    public function actionRatingView($ratingId, $userId)
+    {
+        $carnageUser = CarnageUser::find()->andWhere(['id' => $userId])->one();
+        $carnageRating = CarnageRating::find()->andWhere(['id' => $ratingId])->one();
+        $query = CarnageRatingValue::find()->andWhere([
+            'carnage_rating_id' => $carnageRating->id ?? null,
+            'carnage_user_id'   => $carnageUser->id ?? null,
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date_update' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->render('rating/view', [
+            'dataProvider'  => $dataProvider,
+            'carnageRating' => $carnageRating,
+            'carnageUser'   => $carnageUser,
+        ]);
     }
 
 }

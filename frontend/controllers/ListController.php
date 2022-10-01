@@ -1,15 +1,11 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\Alarm;
 use common\models\Item;
-use common\models\EntityLink;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\User;
-use common\models\Video;
 use common\models\Vote;
-use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use Yii;
 use yii\web\Controller;

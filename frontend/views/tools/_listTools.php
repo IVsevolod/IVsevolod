@@ -11,6 +11,7 @@ $active = $active ?? '';
     <?php
     echo \yii\helpers\Html::a('Преобразовать Timestamp, дату и время', ['tools/timestamp'], ['class' => "list-group-item " . ($active == 'timestamp' ? 'active' : '')]);
     echo \yii\helpers\Html::a('Encode/Decode Base64', ['tools/base64'], ['class' => "list-group-item " . ($active == 'base64' ? 'active' : '')]);
+//    echo \yii\helpers\Html::a('Pocker планирование', ['pocker-planning/list'], ['class' => "list-group-item " . ($active == 'base64' ? 'active' : '')]);
 
     ?>
 </div>
