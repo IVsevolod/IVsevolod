@@ -156,10 +156,16 @@ class CarnageUser extends ActiveRecord
             if (empty($carnageUser) && !empty($username)) {
                 $carnageUser = new CarnageUser([
                     'username'  => $username,
-                    'align_img' => $params['align_img'] ?? '',
-                    'clan_img'  => $params['clan_img'] ?? '',
-                    'guild_img' => $params['guild_img'] ?? '',
                 ]);
+                if (isset($params['align_img'])) {
+                    $carnageUser->align_img = $params['align_img'];
+                }
+                if (isset($params['clan_img'])) {
+                    $carnageUser->align_img = $params['clan_img'];
+                }
+                if (isset($params['guild_img'])) {
+                    $carnageUser->align_img = $params['guild_img'];
+                }
                 if (!$carnageUser->save()) {
                     $carnageUser = null;
                 }

@@ -101,6 +101,10 @@ class CarnageController extends Controller
                 }
             }
             foreach ($lastUserRatings as $username => $userRatingData) {
+                $carnageUser = CarnageUser::getOrCreateUser($username);
+                if (!($carnageUser instanceof CarnageUser)) {
+                    continue;
+                }
                 if (!isset($usernameInList[$username]) && !empty($userRatingData['value'])) {
                     // Если в новом рейтинге его нет, но раньше был
                     $newCarnageRatingValue = new CarnageRatingValue([
@@ -109,9 +113,10 @@ class CarnageController extends Controller
                         'value'             => 0,
                         'place'             => 0,
                     ]);
-                    $newCarnageRatingValue->save();
+                    if (!$newCarnageRatingValue->save()) {
+                        var_dump($newCarnageRatingValue->getErrors());
+                    }
                 }
-                $carnageUser = CarnageUser::getOrCreateUser($username);
             }
 
         }

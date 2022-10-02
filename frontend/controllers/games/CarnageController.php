@@ -203,7 +203,19 @@ class CarnageController extends Controller
             'sort' => [
                 'defaultOrder' => [
                     'place' => SORT_ASC,
-                ]
+                ],
+                'attributes' => [
+                    'nik',
+                    'value',
+                    'place' => [
+                        'asc' => new Expression("CASE WHEN CAST(SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as SIGNED)=0 THEN 9999 ELSE CAST(SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as SIGNED) END ASC"),
+                        'desc' => new Expression("CASE WHEN CAST(SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as SIGNED)=0 THEN 0 ELSE CAST(SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1) as SIGNED) END DESC"),
+                    ],
+                    'date_update',
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 100,
             ],
         ]);
 
