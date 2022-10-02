@@ -27,8 +27,8 @@ class CarnageController extends Controller
                 ->groupBy(['carnage_user_id'])
                 ->select([
                     'nik'       => 'cu.username',
-                    'value'     => new Expression("SUBSTRING_INDEX(GROUP_CONCAT(value ORDER BY cu.id DESC SEPARATOR '-'), '-', 1)"),
-                    'place'     => new Expression("SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY cu.id DESC SEPARATOR '-'), '-', 1)"),
+                    'value'     => new Expression("SUBSTRING_INDEX(GROUP_CONCAT(value ORDER BY carnage_rating_value.id DESC SEPARATOR '-'), '-', 1)"),
+                    'place'     => new Expression("SUBSTRING_INDEX(GROUP_CONCAT(place ORDER BY carnage_rating_value.id DESC SEPARATOR '-'), '-', 1)"),
                     'clan_img'  => 'cu.clan_img',
                     'align_img' => 'cu.align_img',
                 ])
