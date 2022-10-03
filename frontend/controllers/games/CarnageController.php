@@ -27,7 +27,7 @@ class CarnageController extends Controller
                 'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view', 'rating-init'],
                 'rules' => [
                     [
-                        'actions' => ['rating-list', 'rating-index', 'rating-view'],
+                        'actions' => ['rating-list', 'rating-index', 'rating-view', 'user-list', 'user-view'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -248,6 +248,66 @@ class CarnageController extends Controller
             'dataProvider'  => $dataProvider,
             'carnageRating' => $carnageRating,
             'carnageUser'   => $carnageUser,
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionUserList()
+    {
+        $query = CarnageUser::find();
+
+        $searchModel = new CarnageUser();
+        $request = \Yii::$app->request;
+        $searchModel->load($request->get());
+
+
+        $query->andFilterWhere(['like', 'username', $searchModel->username]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date_update' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->render('user/list', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+        ]);
+    }
+
+    public function actionUserView($id)
+    {
+        $carnageUser = CarnageUser::find()->andWhere(['id' => $id])->one();
+
+        $query = CarnageRatingValue::find()
+            ->leftJoin(['cr' => CarnageRating::tableName()], "cr.id=carnage_rating_id")
+            ->andWhere(['carnage_user_id' => $carnageUser->id ?? null])
+            ->andWhere(['>', 'carnage_rating_value.place', 0])
+            ->groupBy(['carnage_rating_id'])
+            ->select([
+                'title'             => 'cr.title',
+                'place'             => 'max(carnage_rating_value.place)',
+                'date_update'       => 'max(carnage_rating_value.date_update)',
+                'carnage_rating_id' => 'carnage_rating_value.carnage_rating_id',
+            ])
+        ;
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+        ]);
+
+
+        return $this->render('user/view', [
+            'carnageUser'  => $carnageUser,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -33,6 +33,9 @@ class CarnageRatingValue extends ActiveRecord
     /** @var string */
     public $alignImg;
 
+    /** @var string */
+    public $title;
+
     /**
      * @inheritdoc
      */
