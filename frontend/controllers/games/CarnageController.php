@@ -12,6 +12,7 @@ use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\Response;
 
 class CarnageController extends Controller
 {
@@ -27,7 +28,10 @@ class CarnageController extends Controller
                 'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view', 'rating-init'],
                 'rules' => [
                     [
-                        'actions' => ['rating-list', 'rating-index', 'rating-view', 'user-list', 'user-view'],
+                        'actions' => [
+                            'rating-list', 'rating-index', 'rating-view', 'user-list', 'user-view',
+                            'version-extension',
+                        ],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -311,4 +315,21 @@ class CarnageController extends Controller
         ]);
     }
 
+    /**
+     * Проверка версии дополнения
+     * @param string $version
+     *
+     * @return array
+     */
+    public function actionVersionAction($version)
+    {
+        $lastVersion = 'v0.1';
+
+        $actual = $version === $lastVersion;
+
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'actual' => $actual,
+        ];
+    }
 }
