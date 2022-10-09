@@ -325,7 +325,7 @@ class CarnageController extends Controller
      *
      * @return array
      */
-    public function actionVersionAction($version)
+    public function actionVersionExtension($version)
     {
         $lastVersion = 'v0.1';
 
