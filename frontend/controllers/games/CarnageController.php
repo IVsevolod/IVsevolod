@@ -25,7 +25,11 @@ class CarnageController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['index', 'stat', 'load-logs', 'rating-list', 'rating-index', 'rating-view', 'rating-init'],
+                'only'  => [
+                    'index', 'stat', 'load-logs',
+                    'rating-list', 'rating-index', 'rating-view', 'rating-init',
+                    'version-extension',
+                ],
                 'rules' => [
                     [
                         'actions' => [
