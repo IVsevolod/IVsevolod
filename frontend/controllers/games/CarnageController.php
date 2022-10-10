@@ -28,13 +28,13 @@ class CarnageController extends Controller
                 'only'  => [
                     'index', 'stat', 'load-logs',
                     'rating-list', 'rating-index', 'rating-view', 'rating-init',
-                    'version-extension',
+                    'version-extension', 'extension',
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'rating-list', 'rating-index', 'rating-view', 'user-list', 'user-view',
-                            'version-extension',
+                            'version-extension', 'extension',
                         ],
                         'allow' => true,
                         'roles' => ['?', '@'],
@@ -335,5 +335,14 @@ class CarnageController extends Controller
         return [
             'actual' => $actual,
         ];
+    }
+
+    /**
+     * Страница для скачивания расширения
+     * @return string
+     */
+    public function actionExtension()
+    {
+        return $this->render('extension', []);
     }
 }
