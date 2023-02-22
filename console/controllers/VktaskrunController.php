@@ -79,7 +79,11 @@ class VktaskrunController extends Controller
         $urls = [];
         foreach ($items as $item) {
             $url = $item->href;
-            $url = 'https://cap.ru/' . substr($url, strpos($url, '?'));
+            $url = substr($url, strpos($url, '?'));
+            if (mb_substr($url, 0, 1) !== '/') {
+                $url = '/' . $url;
+            }
+            $url = 'https://cap.ru' . $url;
             $url = str_replace('&amp;', '&', $url);
             $urls[] = $url;
         }

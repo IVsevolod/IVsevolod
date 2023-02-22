@@ -25,9 +25,6 @@ RUN apt-get update && apt-get install -y \
         mc \
             --no-install-recommends
 
-# Install Xdebug
-RUN pecl install -o -f xdebug \
-    && rm -rf /tmp/pear
 
 RUN docker-php-ext-install mysqli \
   && docker-php-ext-install pdo \

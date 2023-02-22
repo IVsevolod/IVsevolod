@@ -27,7 +27,7 @@ services:
     depends_on:
       - mysqldb
   mysqldb:
-    image: mysql:${MYSQL_VERSION}
+    image: mariadb:10.5.8
     restart: always
     env_file:
       - ".env"
