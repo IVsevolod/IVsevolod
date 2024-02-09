@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Item;
+use common\models\Traffic;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\db\Exception;
@@ -74,13 +75,20 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //
-        // return Yii::$app->mailer->compose()
-        //     ->setTo('ivsevolod@yandex.ru')
-        //     ->setSubject('test')
-        //     ->setTextBody('body')
-        //     ->send();
-        return $this->render('index');
+        $this->layout = 'mainOnePage';
+
+        $request = \Yii::$app->request;
+        $traffic = new Traffic([
+            'userAgent' => $request->getUserAgent(),
+            'referer'   => $request->getReferrer(),
+            'remoteIp'  => $request->getRemoteIP(),
+            'userIp'    => $request->getUserIP(),
+            'url'       => $request->getUrl(),
+            'get'       => json_encode($request->get()),
+            'post'      => json_encode($request->post()),
+        ]);
+        $traffic->save();
+        return $this->render('indexPage');
     }
 
     public function actionSitemap()

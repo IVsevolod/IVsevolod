@@ -1,0 +1,26 @@
+html,
+body {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-color: #0f0f0f;
+    background-image: url('../img/page/main.jpg');
+    background-position: left;
+    background-size: auto 100%;
+
+    color: #e6e6e6;
+}
+
+div.main-block {
+}
+
+div.head {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    font-size: 30pt;
+    font-weight: bold;
+}
