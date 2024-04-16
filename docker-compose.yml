@@ -26,6 +26,12 @@ services:
     restart: always
     depends_on:
       - mysqldb
+  cerbot:
+    build: docker/cerbot
+    user: "${USER_ID}:${GROUP_ID}"
+    volumes:
+      - ./docker/nginx/:/etc/nginx/
+
   mysqldb:
     image: mariadb:10.5.8
     restart: always
