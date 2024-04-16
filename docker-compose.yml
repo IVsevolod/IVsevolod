@@ -35,7 +35,7 @@ services:
     ports:
       - "7031:80"
     depends_on:
-      - nginx
+      - web
 
   mysqldb:
     image: mariadb:10.5.8
