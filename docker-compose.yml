@@ -28,9 +28,14 @@ services:
       - mysqldb
   cerbot:
     build: docker/cerbot
+    command: tail -F anything
     user: "${USER_ID}:${GROUP_ID}"
     volumes:
       - ./docker/nginx/:/etc/nginx/
+    ports:
+      - "7031:80"
+    depends_on:
+      - nginx
 
   mysqldb:
     image: mariadb:10.5.8
