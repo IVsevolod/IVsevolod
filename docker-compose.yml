@@ -36,20 +36,20 @@ services:
       - "7031:80"
     depends_on:
       - web
-
-  mysqldb:
-    image: mariadb:10.5.8
+  db:
+    image: postgres:17.2
     restart: always
     env_file:
       - ".env"
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "6030:3306"
+      - "6030:5432"
+    environment:
+      - POSTGRES_DB=${PGSQL_DATABASE}
+      - POSTGRES_USER=${PGSQL_USER}
+      - POSTGRES_PASSWORD=${PGSQL_PASSWORD}
     volumes:
-      - ./docker/mysql/conf.d:/etc/mysql/conf.d
-      - ./data/db/mysql:/var/lib/mysql
-      - ./data/db/dumps:/var/data/dumps
+      - ./data/pgdb/:/var/lib/postgresql/data/
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"

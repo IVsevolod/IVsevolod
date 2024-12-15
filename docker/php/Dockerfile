@@ -16,7 +16,8 @@ RUN apt-get update \
              graphviz \
              libcurl4-openssl-dev \
              pkg-config \
-             libpq-dev
+             libpq-dev \
+             php-curl
 
 RUN apt-get update && apt-get install -y \
         wget \
