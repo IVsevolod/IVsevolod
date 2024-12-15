@@ -15,7 +15,7 @@ services:
       - php
     depends_on:
       - php
-      - mysqldb
+      - db
   php:
     build: docker/php
     user: "${USER_ID}:${GROUP_ID}"
