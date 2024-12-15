@@ -16,8 +16,7 @@ RUN apt-get update \
              graphviz \
              libcurl4-openssl-dev \
              pkg-config \
-             libpq-dev \
-             php-curl
+             libpq-dev
 
 RUN apt-get update && apt-get install -y \
         wget \
@@ -26,15 +25,21 @@ RUN apt-get update && apt-get install -y \
         mc \
             --no-install-recommends
 
+# Install Xdebug
+RUN pecl channel-update pecl.php.net \
+    && pecl install -o -f xdebug-3.1.5 \
+    && rm -rf /tmp/pear
 
-RUN docker-php-ext-install mysqli \
-  && docker-php-ext-install pdo \
-  && docker-php-ext-install pdo_mysql \
-  && docker-php-ext-install intl \
+RUN docker-php-ext-install intl \
   && docker-php-ext-install zip \
   && docker-php-ext-install exif \
   && docker-php-ext-install opcache \
   && docker-php-source delete
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
 
 RUN apt-get update && apt-get install -y \
       libmagickwand-dev --no-install-recommends \
