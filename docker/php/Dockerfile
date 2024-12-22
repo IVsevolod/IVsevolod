@@ -25,9 +25,9 @@ RUN apt-get update && apt-get install -y \
             --no-install-recommends
 
 # Install Xdebug
-RUN pecl channel-update pecl.php.net \
-    && pecl install -o -f xdebug-3.1.5 \
-    && rm -rf /tmp/pear
+# RUN pecl channel-update pecl.php.net \
+#    && pecl install -o -f xdebug-3.1.5 \
+#    && rm -rf /tmp/pear
 
 RUN docker-php-ext-install intl \
   && docker-php-ext-install zip \
