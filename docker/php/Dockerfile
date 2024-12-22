@@ -29,11 +29,11 @@ RUN apt-get update && apt-get install -y \
 #    && pecl install -o -f xdebug-3.1.5 \
 #    && rm -rf /tmp/pear
 
-RUN docker-php-ext-install intl \
-  && docker-php-ext-install zip \
+#RUN docker-php-ext-install intl \
+#  && docker-php-ext-install zip \
 #  && docker-php-ext-install exif \
-  && docker-php-ext-install opcache \
-  && docker-php-source delete
+#  && docker-php-ext-install opcache \
+#  && docker-php-source delete
 
 # Install Postgre PDO
 RUN apt-get install -y libpq-dev \
