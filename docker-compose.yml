@@ -3,8 +3,7 @@ services:
     restart: unless-stopped
     image: ivsevolod-backend
     build:
-      context: ivsevolod
-      dockerfile: docker/${APK_ENV}/php/Dockerfile
+      dockerfile: ivsevolod/docker/${APK_ENV}/php/Dockerfile
     healthcheck:
       disable: true
     volumes:
@@ -14,8 +13,7 @@ services:
     restart: unless-stopped
     image: ivsevolod-nginx
     build:
-      context: ivsevolod
-      dockerfile: docker/${APK_ENV}/nginx/Dockerfile
+      dockerfile: ivsevolod/docker/${APK_ENV}/nginx/Dockerfile
     depends_on:
       - main-backend
     volumes:
@@ -27,8 +25,7 @@ services:
     restart: unless-stopped
     image: gateway-nginx
     build:
-      context: gateway/nginx
-      dockerfile: ${APK_ENV}/Dockerfile
+      dockerfile: gateway/nginx/${APK_ENV}/Dockerfile
     environment:
       DOMAIN: ${DOMAIN}
     volumes:
