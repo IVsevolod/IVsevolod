@@ -1,9 +1,7 @@
-version: "3.4"
-
 services:
   main-backend:
     restart: unless-stopped
-    image: ${REGISTRY}/ivsevolod-backend:${IMAGE_TAG_BACK}
+    image: ivsevolod-backend
     build:
       context: ivsevolod
       dockerfile: docker/${APK_ENV}/php/Dockerfile
@@ -14,7 +12,7 @@ services:
 
   main-nginx:
     restart: unless-stopped
-    image: ${REGISTRY}/ivsevolod-nginx:${IMAGE_TAG_NGINX}
+    image: ivsevolod-nginx
     build:
       context: ivsevolod
       dockerfile: docker/${APK_ENV}/nginx/Dockerfile
@@ -27,7 +25,7 @@ services:
 
   gateway:
     restart: unless-stopped
-    image: ${REGISTRY}/gateway-nginx:${IMAGE_TAG_GATEWAY}
+    image: gateway-nginx
     build:
       context: gateway/nginx
       dockerfile: ${APK_ENV}/Dockerfile
