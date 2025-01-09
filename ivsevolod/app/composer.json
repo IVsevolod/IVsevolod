@@ -1,0 +1,16 @@
+{
+    "name": "ivsevolod/app",
+    "autoload": {
+        "psr-4": {
+            "Ivsevolod\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ivsevolod"
+        }
+    ],
+    "require-dev": {
+        "phalcon/ide-stubs": "^5.8"
+    }
+}

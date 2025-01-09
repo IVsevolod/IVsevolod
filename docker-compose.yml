@@ -1,54 +1,57 @@
+version: "3.4"
+
 services:
-  web:
-    image: nginx:alpine
+  main-backend:
+    restart: unless-stopped
+    image: ${REGISTRY}/ivsevolod-backend:${IMAGE_TAG_BACK}
+    build:
+      context: ivsevolod
+      dockerfile: docker/${APK_ENV}/php/Dockerfile
+    healthcheck:
+      disable: true
     volumes:
-      - ./:/app
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./data/nginx/log:/var/log/nginx
-    ports:
-      - "7030:80"
-      - "3030:443"
-    restart: always
-    links:
-      - php
+      - ./ivsevolod/app:/app
+
+  main-nginx:
+    restart: unless-stopped
+    image: ${REGISTRY}/ivsevolod-nginx:${IMAGE_TAG_NGINX}
+    build:
+      context: ivsevolod
+      dockerfile: docker/${APK_ENV}/nginx/Dockerfile
     depends_on:
-      - php
-      - db
-  php:
-    build: docker/php
-    user: "${USER_ID}:${GROUP_ID}"
+      - main-backend
     volumes:
-      - ./:/app
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/php/local-conf.d/:/usr/local/etc/php/local-conf.d/
-    restart: always
-    depends_on:
-      - db
-  cerbot:
-    build: docker/cerbot
-    command: tail -F anything
-    user: "${USER_ID}:${GROUP_ID}"
-    volumes:
-      - ./docker/nginx/:/etc/nginx/
-    ports:
-      - "7031:80"
-    depends_on:
-      - web
-  db:
-    image: postgres:17.2
-    restart: always
-    env_file:
-      - ".env"
-    ports:
-      - "6030:5432"
+      - ./ivsevolod/app/public:/app/public
+      - ./ivsevolod/data/nginx/log:/var/log/nginx
+      - ./ivsevolod/docker/${APK_ENV}/nginx/conf.d:/etc/nginx/conf.d/
+
+  gateway:
+    restart: unless-stopped
+    image: ${REGISTRY}/gateway-nginx:${IMAGE_TAG_GATEWAY}
+    build:
+      context: gateway/nginx
+      dockerfile: ${APK_ENV}/Dockerfile
     environment:
-      - POSTGRES_DB=${PGSQL_DATABASE}
-      - POSTGRES_USER=${PGSQL_USER}
-      - POSTGRES_PASSWORD=${PGSQL_PASSWORD}
+      DOMAIN: ${DOMAIN}
     volumes:
-      - ./data/pgdb/:/var/lib/postgresql/data/
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
+      - ./var/ssl:/etc/letsencrypt:r
+      - ./gateway/nginx/${APK_ENV}/templates:/etc/nginx/templates/
+      - ./gateway/data/nginx/log:/var/log/nginx
+    depends_on:
+      - main-nginx
+    ports:
+      - 7030:80
+      - 3030:443
+
+  certbot:
+    restart: "no"
+    image: certbot/certbot
+    volumes:
+      - ./var/ssl:/etc/letsencrypt:rw
+    command: >
+      certonly --webroot --webroot-path=/etc/letsencrypt/www 
+      --email ${SUPPORT_EMAIL} --agree-tos --no-eff-email 
+      --force-renewal -d ${DOMAIN} -v
+    #      --dry-run
+    #      --preferred-challenges dns
+    #      --force-renewal -d *.${DOMAIN} -v
