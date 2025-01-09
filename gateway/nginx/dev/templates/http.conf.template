@@ -26,6 +26,10 @@ server {
     # To allow special characters in headers
     ignore_invalid_headers off;
 
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
     location / {
         set $upstream http://main-nginx;
         proxy_set_header X-Real-IP       $remote_addr;
