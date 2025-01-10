@@ -5,4 +5,4 @@ RUN apk add --no-cache curl
 WORKDIR /app/public
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx/conf.d/*.conf /etc/nginx/conf.d/
+COPY ./ivsevolod/docker/prod/nginx/conf.d/nginx.conf /etc/nginx/conf.d/
