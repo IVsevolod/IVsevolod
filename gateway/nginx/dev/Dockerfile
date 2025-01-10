@@ -5,3 +5,4 @@ RUN apk add --no-cache curl nano
 WORKDIR /app
 
 RUN rm /etc/nginx/conf.d/default.conf
+COPY ./gateway/nginx/dev/conf.d/http.conf /etc/nginx/conf.d/http.conf

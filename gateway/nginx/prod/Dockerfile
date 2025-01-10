@@ -5,8 +5,4 @@ RUN apk add --no-cache curl nano
 WORKDIR /app
 
 RUN rm /etc/nginx/conf.d/default.conf
-#COPY ./prod/templates/https.conf.template /etc/nginx/templates/
-COPY ./prod/templates/*.conf.template /etc/nginx/templates/
-
-#CMD ["nginx-debug", "-g", "daemon off;"]
-
+COPY ./gateway/nginx/prod/conf.d/http.conf /etc/nginx/conf.d/http.conf

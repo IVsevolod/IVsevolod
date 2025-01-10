@@ -19,7 +19,7 @@ services:
     volumes:
       - ./ivsevolod/app/public:/app/public
       - ./ivsevolod/data/nginx/log:/var/log/nginx
-      - ./ivsevolod/docker/${APK_ENV}/nginx/conf.d:/etc/nginx/conf.d/
+      - ./ivsevolod/data/nginx/data/conf.d:/etc/nginx/conf.d
 
   gateway:
     restart: unless-stopped
@@ -29,7 +29,7 @@ services:
     environment:
       DOMAIN: ${DOMAIN}
     volumes:
-      - ./gateway/nginx/${APK_ENV}/templates:/etc/nginx/templates/
+      - ./gateway/data/nginx/data/conf.d:/etc/nginx/conf.d
       - ./gateway/data/nginx/log:/var/log/nginx
       - ./certbot/www/:/var/www/certbot/:ro
     depends_on:
@@ -39,15 +39,9 @@ services:
       - 3030:443
 
   certbot:
+#    https://phoenixnap.com/kb/letsencrypt-docker
     restart: "no"
     image: certbot/certbot
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
-    command: >
-      certonly --webroot --webroot-path=/etc/letsencrypt/www 
-      --email ${SUPPORT_EMAIL} --agree-tos --no-eff-email 
-      --force-renewal -d ${DOMAIN} -v
-    #      --dry-run
-    #      --preferred-challenges dns
-    #      --force-renewal -d *.${DOMAIN} -v
