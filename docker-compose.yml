@@ -39,7 +39,6 @@ services:
       - 3030:443
 
   certbot:
-#    https://phoenixnap.com/kb/letsencrypt-docker
     restart: "no"
     image: certbot/certbot
     volumes:
