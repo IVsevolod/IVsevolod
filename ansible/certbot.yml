@@ -1,6 +1,0 @@
----
-- name: Renew certificates
-  hosts: all
-  remote_user: root
-  roles:
-    - certbot

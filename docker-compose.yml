@@ -31,17 +31,8 @@ services:
     volumes:
       - ./gateway/data/nginx/data/conf.d:/etc/nginx/conf.d
       - ./gateway/data/nginx/log:/var/log/nginx
-      - ./certbot/www/:/var/www/certbot/:ro
     depends_on:
       - main-nginx
     ports:
       - 7030:80
       - 3030:443
-
-  certbot:
-    restart: "no"
-    image: certbot/certbot
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-      - /etc/nginx/certbot/conf:/etc/letsencrypt/:rw
