@@ -1,5 +1,5 @@
 services:
-  main-backend:
+  ivsevolod-backend:
     restart: unless-stopped
     image: ivsevolod-backend
     build:
@@ -9,7 +9,7 @@ services:
     volumes:
       - ./ivsevolod/app:/app
 
-  main-nginx:
+  ivsevolod-nginx:
     restart: unless-stopped
     image: ivsevolod-nginx
     build:
@@ -32,7 +32,7 @@ services:
       - ./gateway/data/nginx/data/conf.d:/etc/nginx/conf.d
       - ./gateway/data/nginx/log:/var/log/nginx
     depends_on:
-      - main-nginx
+      - ivsevolod-nginx
     ports:
       - 7030:80
       - 3030:443
