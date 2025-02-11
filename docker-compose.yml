@@ -24,6 +24,8 @@ services:
   gateway:
     restart: unless-stopped
     image: gateway-nginx
+    networks:
+      - ivsevolod-net
     build:
       dockerfile: gateway/nginx/${APK_ENV}/Dockerfile
     environment:
@@ -36,3 +38,7 @@ services:
     ports:
       - 7030:80
       - 3030:443
+
+networks:
+  ivsevolod-net:
+    driver: bridge
