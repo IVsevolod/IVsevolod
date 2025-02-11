@@ -2,6 +2,8 @@ services:
   ivsevolod-backend:
     restart: unless-stopped
     image: ivsevolod-backend
+    networks:
+      - ivsevolod-net
     build:
       dockerfile: ivsevolod/docker/${APK_ENV}/php/Dockerfile
     healthcheck:
@@ -12,6 +14,8 @@ services:
   ivsevolod-nginx:
     restart: unless-stopped
     image: ivsevolod-nginx
+    networks:
+      - ivsevolod-net
     build:
       dockerfile: ivsevolod/docker/${APK_ENV}/nginx/Dockerfile
     depends_on:
