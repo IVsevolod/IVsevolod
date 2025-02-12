@@ -25,24 +25,6 @@ services:
       - ./ivsevolod/data/nginx/log:/var/log/nginx
       - ./ivsevolod/data/nginx/data/conf.d:/etc/nginx/conf.d
 
-  gateway:
-    restart: unless-stopped
-    image: gateway-nginx
-    networks:
-      - ivsevolod-net
-    build:
-      dockerfile: gateway/nginx/${APK_ENV}/Dockerfile
-    environment:
-      DOMAIN: ${DOMAIN}
-    volumes:
-      - ./gateway/data/nginx/data/conf.d:/etc/nginx/conf.d
-      - ./gateway/data/nginx/log:/var/log/nginx
-    depends_on:
-      - ivsevolod-nginx
-    ports:
-      - 7030:80
-      - 3030:443
-
 networks:
   ivsevolod-net:
     driver: bridge
